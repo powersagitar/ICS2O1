@@ -12,10 +12,12 @@ inMin = int(input("Enter your in time (Minute): "));
 outHour = int(input("Enter your out time (Hour): "));
 outMin = int(input("Enter your out time (Minute): "));
 
-if inHour > outHour:
+if inHour >= outHour:
     duration = ((23 - inHour) * 60) + (60 - inMin) + (outHour * 60) + outMin;
 else:
     duration = ((outHour - inHour) * 60) + (60 - inMin) + outMin;
+    if inMin == 0:
+        duration -= 
 
 if (duration % 30) != 0:
     period = duration // 30 + 1;
