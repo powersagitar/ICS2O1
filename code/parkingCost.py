@@ -44,7 +44,7 @@ if (inHour <= 23 and inMin <= 59 and outHour <= 23 and outMin <= 59):
     print("Your staying periods are:", period, "periods.");
     print("Subtotal: $" + str(subtotal));
     print("HST: $" + str(tax));
-    print("Total: $" + str(subtotal + tax));
+    print("Total: $" + str(round(subtotal + tax, 2)));
 else:
     print("Please enter a valid time.");
     print();
