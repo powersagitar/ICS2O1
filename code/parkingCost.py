@@ -36,6 +36,7 @@ if (inHour <= 23 and inMin <= 59 and outHour <= 23 and outMin <= 59):
     subtotal = CHARGE * period;
     tax = round((subtotal * HST), 2);
     
+    print();
     print("ICS2O1 Parking Management Inc.");
     print("Your in time is:", str(inHour).zfill(2) + ":" + str(inMin).zfill(2));
     print("Your out time is:", str(outHour).zfill(2) + ":" + str(outMin).zfill(2));
@@ -44,7 +45,6 @@ if (inHour <= 23 and inMin <= 59 and outHour <= 23 and outMin <= 59):
     print("Subtotal: $" + str(subtotal));
     print("HST: $" + str(tax));
     print("Total: $" + str(subtotal + tax));
-    print();
 else:
     print("Please enter a valid time.");
     print();
