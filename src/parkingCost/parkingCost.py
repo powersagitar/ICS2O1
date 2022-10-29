@@ -17,21 +17,21 @@ outMin = int(input("Enter your out time (Minute): "));
 if (inHour <= 23 and inMin <= 59 and outHour <= 23 and outMin <= 59):
     #duration calculation
     if inHour > outHour: #the next day
-        duration = ((24 - inHour) * 60) + (60 - inMin) + (outHour * 60) + outMin;
+        duration = ((23 - inHour) * 60) + (60 - inMin) + (outHour * 60) + outMin;
     elif inHour == outHour:
         if inMin >= outMin: #the next day
-            duration = ((24 - inHour) * 60) + (60 - inMin) + (outHour * 60) + outMin;
+            duration = ((23 - inHour) * 60) + (60 - inMin) + (outHour * 60) + outMin;
         else: #the same day
             duration = outMin - inMin;
     else: #the same day
         if (outHour - inHour) == 1: #critical situation
             duration = 60 - inMin + outMin;
         else:
-            duration = ((outHour - inHour) * 60) + (60 - inMin) + outMin;
+            duration = ((outHour - inHour - 1) * 60) + (60 - inMin) + outMin;
         if inMin == 0:
             duration -= 60;
 
-    #peiod calculation
+    #period calculation
     if (duration % 30) != 0:
         period = duration // 30 + 1;
     else:
