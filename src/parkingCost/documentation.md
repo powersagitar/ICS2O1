@@ -33,7 +33,6 @@
 | tax | Store tax | float |
 
 ## Pseudocode
-//update pending
 
 * Initialize variables and fetch inputs then store them in variables
 * Check inputs' validation
@@ -42,7 +41,11 @@
     2. inHour = outHour
         1. inMin >= outMin (the next day): `duration = ((23 - inHour) * 60) + (60 - inMin) + (outHour* 60) + outMin`
         2. else (the same day): `duration = outMin - inMin`
-    3. else (the same day): `duration = ((outHour - inHour) * 60) + (60 - inMin) + outMin; if inMin =  0, duration -= 60`
+    3. else (the same day):
+        1. Situations
+            1. Critical situation (outHour - inHour = 1): `duration = 60 - inMin + outMin`
+            2. Normal: `duration = ((outHour - inHour) * 60) + (60 - inMin) + outMin`
+        2. Compensation: `if inMin =  0: duration -= 60`
 * Calculate periods of stay
     * Let duration / 30. If there's a remainder, then `period = duration // 30 + 1`; else, `period = duration // 30`. (Use `//` to format `period` to int)
 * Calculate price: subtotal and tax
