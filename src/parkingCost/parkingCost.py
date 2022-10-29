@@ -7,7 +7,8 @@
 
 #key point: the duration is not longer than 24 hours.
 #Line 19-30 will only work if the duration is not longer than 24 hours.
-#Subtotal will never has more than two decimal places.
+
+#vaiable initialization
 HST = 0.13
 CHARGE = 1.75
 inHour = int(input("Enter your in time (Hour): "));
@@ -15,7 +16,9 @@ inMin = int(input("Enter your in time (Minute): "));
 outHour = int(input("Enter your out time (Hour): "));
 outMin = int(input("Enter your out time (Minute): "));
 
+#input validation check
 if (inHour <= 23 and inMin <= 59 and outHour <= 23 and outMin <= 59):
+    #duration calculation
     if inHour > outHour: #the next day
         duration = ((23 - inHour) * 60) + (60 - inMin) + (outHour * 60) + outMin;
     elif inHour == outHour:
@@ -28,14 +31,17 @@ if (inHour <= 23 and inMin <= 59 and outHour <= 23 and outMin <= 59):
         if inMin == 0:
             duration -= 60;
 
+    #peiod calculation
     if (duration % 30) != 0:
         period = duration // 30 + 1;
     else:
         period = duration // 30;
 
+    #price calculation
     subtotal = CHARGE * period;
     tax = round((subtotal * HST), 2);
     
+    #print receipt
     print();
     print("ICS2O1 Parking Management Inc.");
     print("Your in time is:", str(inHour).zfill(2) + ":" + str(inMin).zfill(2));

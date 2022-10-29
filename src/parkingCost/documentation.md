@@ -13,6 +13,10 @@
 * Duration of stay
 * Time periods of stay
 
+## IPO table
+
+![]()
+
 ## Storage
 
 | Variable name | Variable use | Data type |
@@ -23,4 +27,4 @@
 ## Test cases
 
 |  |  |  |
-| :-: | :-: | :-:|
+| :-: | :-: | :-: |
