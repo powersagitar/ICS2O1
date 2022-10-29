@@ -17,10 +17,10 @@ outMin = int(input("Enter your out time (Minute): "));
 if (inHour <= 23 and inMin <= 59 and outHour <= 23 and outMin <= 59):
     #duration calculation
     if inHour > outHour: #the next day
-        duration = ((23 - inHour) * 60) + (60 - inMin) + (outHour * 60) + outMin;
+        duration = ((24 - inHour) * 60) + (60 - inMin) + (outHour * 60) + outMin;
     elif inHour == outHour:
         if inMin >= outMin: #the next day
-            duration = ((23 - inHour) * 60) + (60 - inMin) + (outHour * 60) + outMin;
+            duration = ((24 - inHour) * 60) + (60 - inMin) + (outHour * 60) + outMin;
         else: #the same day
             duration = outMin - inMin;
     else: #the same day
