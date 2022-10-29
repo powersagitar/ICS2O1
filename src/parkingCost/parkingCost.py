@@ -24,10 +24,7 @@ if (inHour <= 23 and inMin <= 59 and outHour <= 23 and outMin <= 59):
         else: #the same day
             duration = outMin - inMin;
     else: #the same day
-        if (outHour - inHour) == 1: #critical situation
-            duration = 60 - inMin + outMin;
-        else:
-            duration = ((outHour - inHour - 1) * 60) + (60 - inMin) + outMin;
+        duration = ((outHour - inHour - 1) * 60) + (60 - inMin) + outMin;
         if inMin == 0:
             duration -= 60;
 
