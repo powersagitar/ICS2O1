@@ -1,5 +1,16 @@
 # Parking Cost
 
+Table of Contents
+1. [Information](##Information)
+2. [Need to know](##Need\ to\ know)
+3. [Need to calculate](##Need\ to\ calculate)
+4. [IPO table](##IPO\ table)
+5. [Storage](##Storage)
+6. [Pseudocode](##Pseudocode)
+7. [Test cases](##Test\ cases)
+    1. [Top-5 valuables](###Top-5\ valuable\ cases)
+    2. [All cases](###All\ cases)
+
 ## Information
 
 * Charge: $1.75 per every period of half an hour that has started
@@ -51,10 +62,22 @@
 
 ## Test cases
 
+### Top-5 valueable cases
+
 | in-time | out-time | duration (min) | period | subtotal | tax | total |
 | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
 | 00:00 | 00:00 | 1440 | 48 | 84 | 10.92 | 94.92 |
-| 00:00 | 12:00 | 720 | 24 | 42 | 5.46 | 47.46 |
+| 00:00 | 12:00 | 660 | 22 | 38.5 | 5 | 43.5 |
+| 12:00 | 10:00 | 1320 | 44 | 77 | 10.01 | 87.01 |
+| 00:02 | 01:01 | 59 | 2 | 3.5 | 0.46 | 3.96 |
+| 12:01 | 11:59 | 1438 | 48 | 84 | 10.92 | 94.92 |
+
+### All cases
+
+| in-time | out-time | duration (min) | period | subtotal | tax | total |
+| :-: | :-: | :-: | :-: | :-: | :-: | :-: |
+| 00:00 | 00:00 | 1440 | 48 | 84 | 10.92 | 94.92 |
+| 00:00 | 12:00 | 660 | 22 | 38.5 | 5 | 43.5 |
 | 12:00 | 10:00 | 1320 | 44 | 77 | 10.01 | 87.01 |
 | 00:02 | 01:01 | 59 | 2 | 3.5 | 0.46 | 3.96 |
 | 12:01 | 11:59 | 1438 | 48 | 84 | 10.92 | 94.92 |
