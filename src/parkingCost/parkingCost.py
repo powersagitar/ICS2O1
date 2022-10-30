@@ -5,7 +5,7 @@
 #Description: An assignment about parking cost.
 ##############################################################
 
-#vaiable initialization
+#variable initialization
 HST = 0.13
 CHARGE = 1.75
 inHour = int(input("Enter your in time (Hour): "));

@@ -15,7 +15,7 @@
 
 ## IPO table
 
-![]()
+![](./figure%201.png)
 
 ## Storage
 
@@ -37,19 +37,17 @@
 * Initialize variables and fetch inputs then store them in variables
 * Check inputs' validation
 * Calculate duration of stay (3 situations in total)
-    1. inHour > outHour (the next day): `duration = ((23 - inHour) * 60) + (60 - inMin) + (outHour* 60) + outMin`
+    1. inHour > outHour (the next day): `duration = ((23 - inHour) * 60) + (60 - inMin) + (outHour * 60) + outMin`
     2. inHour = outHour
-        1. inMin >= outMin (the next day): `duration = ((23 - inHour) * 60) + (60 - inMin) + (outHour* 60) + outMin`
+        1. inMin >= outMin (the next day): `duration = ((23 - inHour) * 60) + (60 - inMin) + (outHour * 60) + outMin`
         2. else (the same day): `duration = outMin - inMin`
     3. else (the same day):
-        1. Situations
-            1. Critical situation (outHour - inHour = 1): `duration = 60 - inMin + outMin`
-            2. Normal: `duration = ((outHour - inHour) * 60) + (60 - inMin) + outMin`
-        2. Compensation: `if inMin =  0: duration -= 60`
+        1. `duration = ((outHour - inHour - 1) * 60) + (60 - inMin) + outMin`
+        2. if inMin =  0: `duration -= 60`
 * Calculate periods of stay
-    * Let duration / 30. If there's a remainder, then `period = duration // 30 + 1`; else, `period = duration // 30`. (Use `//` to format `period` to int)
-* Calculate price: subtotal and tax
-* Calculate total price and output results
+    * Do duration / 30. If there's a remainder, then `period = duration // 30 + 1`; else, `period = duration // 30`. (Use `//` to format `period` to int)
+* Calculate price: subtotal (`CHARGE * period`) and tax (`round((subtotal * HST), 2)`)
+* Calculate total price (`str(round(subtotal + tax, 2))`) and output results
 
 ## Test cases
 
