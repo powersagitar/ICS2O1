@@ -15,7 +15,7 @@
 
 ## IPO table
 
-![](./figure%201.png)
+![figure 1 - IPO Table](./figure%201.png)
 
 ## Storage
 
