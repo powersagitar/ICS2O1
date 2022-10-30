@@ -1,15 +1,16 @@
 # Parking Cost
 
 Table of Contents
-1. [Information](##Information)
-2. [Need to know](##Need\ to\ know)
-3. [Need to calculate](##Need\ to\ calculate)
-4. [IPO table](##IPO\ table)
-5. [Storage](##Storage)
-6. [Pseudocode](##Pseudocode)
-7. [Test cases](##Test\ cases)
-    1. [Top-5 valuables](###Top-5\ valuable\ cases)
-    2. [All cases](###All\ cases)
+- [Parking Cost](#parking-cost)
+  - [Information](#information)
+  - [Need to know](#need-to-know)
+  - [Need to calculate](#need-to-calculate)
+  - [IPO table](#ipo-table)
+  - [Storage](#storage)
+  - [Pseudocode](#pseudocode)
+  - [Test cases](#test-cases)
+    - [Top-5 valueable cases](#top-5-valueable-cases)
+    - [All cases](#all-cases)
 
 ## Information
 
