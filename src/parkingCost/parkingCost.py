@@ -8,6 +8,7 @@
 #variable initialization
 HST = 0.13
 CHARGE = 1.75
+#fetching input and initialize variables
 inHour = int(input("Enter your in time (Hour): "));
 inMin = int(input("Enter your in time (Minute): "));
 outHour = int(input("Enter your out time (Hour): "));
