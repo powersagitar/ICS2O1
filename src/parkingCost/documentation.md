@@ -31,18 +31,18 @@ Table of Contents
 
 ## Storage
 
-| Variable name | Variable use | Data type |
-| :-: | :-: | :-:|
-| HST | Store tax rate | float |
-|CHARGE | Store unit price | float |
-| inHour | Store in-time | int |
-| inMin | Store in-time | int |
-| outHour | Store out-time | int |
-| outMin | Store out-time | int |
-| duration | Duration of stay | int |
-| period | Period of stay | int |
-| subtotal | Subtotal of price | float |
-| tax | Store tax | float |
+| Variable name |   Variable use    | Data type |
+| :-----------: | :---------------: | :-------: |
+|      HST      |  Store tax rate   |   float   |
+|    CHARGE     | Store unit price  |   float   |
+|    inHour     |   Store in-time   |    int    |
+|     inMin     |   Store in-time   |    int    |
+|    outHour    |  Store out-time   |    int    |
+|    outMin     |  Store out-time   |    int    |
+|   duration    | Duration of stay  |    int    |
+|    period     |  Period of stay   |    int    |
+|   subtotal    | Subtotal of price |   float   |
+|      tax      |     Store tax     |   float   |
 
 ## Pseudocode
 
@@ -65,24 +65,24 @@ Table of Contents
 
 ### Top-5 valueable cases
 
-| in-time | out-time | duration (min) | period | subtotal | tax | total |
-| :-: | :-: | :-: | :-: | :-: | :-: | :-: |
-| 00:00 | 00:00 | 1440 | 48 | 84 | 10.92 | 94.92 |
-| 00:00 | 12:00 | 660 | 22 | 38.5 | 5 | 43.5 |
-| 12:00 | 10:00 | 1320 | 44 | 77 | 10.01 | 87.01 |
-| 00:02 | 01:01 | 59 | 2 | 3.5 | 0.46 | 3.96 |
-| 12:01 | 11:59 | 1438 | 48 | 84 | 10.92 | 94.92 |
+| in-time | out-time | duration (min) | period | subtotal |  tax  | total |
+| :-----: | :------: | :------------: | :----: | :------: | :---: | :---: |
+|  00:00  |  00:00   |      1440      |   48   |    84    | 10.92 | 94.92 |
+|  00:00  |  12:00   |      660       |   22   |   38.5   |   5   | 43.5  |
+|  12:00  |  10:00   |      1320      |   44   |    77    | 10.01 | 87.01 |
+|  00:02  |  01:01   |       59       |   2    |   3.5    | 0.46  | 3.96  |
+|  12:01  |  11:59   |      1438      |   48   |    84    | 10.92 | 94.92 |
 
 ### All cases
 
-| in-time | out-time | duration (min) | period | subtotal | tax | total |
-| :-: | :-: | :-: | :-: | :-: | :-: | :-: |
-| 00:00 | 00:00 | 1440 | 48 | 84 | 10.92 | 94.92 |
-| 00:00 | 12:00 | 660 | 22 | 38.5 | 5 | 43.5 |
-| 12:00 | 10:00 | 1320 | 44 | 77 | 10.01 | 87.01 |
-| 00:02 | 01:01 | 59 | 2 | 3.5 | 0.46 | 3.96 |
-| 12:01 | 11:59 | 1438 | 48 | 84 | 10.92 | 94.92 |
-| 00:05 | 01:15 | 70 | 3 | 5.25 | 0.68 | 5.93 |
-| 00:01 | 01:02 | 61 | 3 | 5.25 | 0.68 | 5.93 |
-| 00:10 | 01:05 | 55 | 2 | 3.5 | 0.46 | 3.96 |
-| 00:10 | 00:15 | 5 | 1 | 1.75 | 0.23 | 1.98 |
+| in-time | out-time | duration (min) | period | subtotal |  tax  | total |
+| :-----: | :------: | :------------: | :----: | :------: | :---: | :---: |
+|  00:00  |  00:00   |      1440      |   48   |    84    | 10.92 | 94.92 |
+|  00:00  |  12:00   |      660       |   22   |   38.5   |   5   | 43.5  |
+|  12:00  |  10:00   |      1320      |   44   |    77    | 10.01 | 87.01 |
+|  00:02  |  01:01   |       59       |   2    |   3.5    | 0.46  | 3.96  |
+|  12:01  |  11:59   |      1438      |   48   |    84    | 10.92 | 94.92 |
+|  00:05  |  01:15   |       70       |   3    |   5.25   | 0.68  | 5.93  |
+|  00:01  |  01:02   |       61       |   3    |   5.25   | 0.68  | 5.93  |
+|  00:10  |  01:05   |       55       |   2    |   3.5    | 0.46  | 3.96  |
+|  00:10  |  00:15   |       5        |   1    |   1.75   | 0.23  | 1.98  |
