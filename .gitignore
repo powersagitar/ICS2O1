@@ -154,3 +154,5 @@ cython_debug/
 
 #Device-specific configs
 *.json
+*.DS_Store
+*._
