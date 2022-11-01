@@ -26,8 +26,6 @@ if (inHour <= 23 and inMin <= 59 and outHour <= 23 and outMin <= 59):
             duration = outMin - inMin;
     else: #the same day
         duration = ((outHour - inHour - 1) * 60) + (60 - inMin) + outMin;
-        if inMin == 0:
-            duration -= 60;
 
     #period calculation
     if (duration % 30) != 0:
