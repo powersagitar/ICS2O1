@@ -55,7 +55,6 @@ Table of Contents
         2. else (the same day): `duration = outMin - inMin`
     3. else (the same day):
         1. `duration = ((outHour - inHour - 1) * 60) + (60 - inMin) + outMin`
-        2. if inMin =  0: `duration -= 60`
 * Calculate periods of stay
     * Do duration / 30. If there's a remainder, then `period = duration // 30 + 1`; else, `period = duration // 30`. (Use `//` to format `period` to int)
 * Calculate price: subtotal (`CHARGE * period`) and tax (`round((subtotal * HST), 2)`)
