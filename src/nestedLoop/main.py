@@ -5,12 +5,21 @@
 # Description: An assignment about menus.
 ##############################################################
 
-# discount declaration
+# date check
 dateM = int(input("Enter today's date (MM): "));
 dateD = int(input("Enter today's date (DD): "));
-if (dateM == dateD):
-    DISCOUNT = 0.9
 
+# menu stack and price stack declaration (demo)
+menu = ["salad", "fries", "beefBurger", "beefHotDog"];
+price = [10, 10, 10, 10];
+# check special offer validation
+if (dateM == dateD):
+    # apply special offer
+    for i in len(price):
+        price[i] = price[i] * 0.8;
+    discount = True;
+
+# fetch user input
 while (True):
     name = input("Enter your full name: ");
     specificationStore = [];
@@ -32,8 +41,8 @@ while (True):
     print("\nReceipt");
     print("Name:", name);
     print("Specifications:", specificationStore);
-    if (DISCOUNT is not None):
-        print("Special-day discount applied:", DISCOUNT);
+    if (DISCOUNT == True):
+        print("Special-day discount applied: 20% off"); # ? not sure if it's working, tests needed
     else:
         print("No special-day discount applied");
     
