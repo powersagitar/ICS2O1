@@ -9,9 +9,12 @@
 dateM = int(input("Enter today's date (MM): "));
 dateD = int(input("Enter today's date (DD): "));
 
-# menu stack and price stack declaration (demo)
-menu = ["salad", "fries", "beefBurger", "beefHotDog"];
-price = [10, 10, 10, 10];
+# menu, tag, price, cart stack declaration (demo)
+menu = ["beefBurger", "cheeseBurger", "doubleBurger", "chickenBurger", "sausageBurger", "fruitopiaStrawberry", "fruitopiaOrange", "coke" "dietCoke", "fries", "iceCream"];
+tag = ["meat-burger", "burger", "meat-burger", "meat-burger", "meat-burger", "beverage", "beverage", "beverage", "beverage", "others", "others"];
+price = [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10];
+cart = [];
+
 # check special offer validation
 if (dateM == dateD):
     # apply special offer
@@ -25,17 +28,30 @@ while (True):
     specificationStore = [];
     # fetch specifications
     while (True):
-        specificationInput = input("Enter your specifications, if none, enter *void*: ");
-        specificationStore.append(specificationInput);
+        userInput = input("Enter your specifications, if none, enter *void*: ");
+        specificationStore.append(userInput);
         if ("void" in specificationStore):
             specificationStore = "None";
             break;
         # new specification check
-        conditionInnerWhile1 = input("Continue? Enter True or False: ");
-        if (conditionInnerWhile1 == "False"):
+        conditionInnerWhile = input("Continue? Enter True or False: ");
+        if (conditionInnerWhile == "False"):
             break;
     
+    # avoiding specifications
+    if ("vegie" in specificationStore):
+        for i in len(tag):
+            if (meat in tag[i]):
+                price[i] = "unavailable";
     
+    #order
+    print("Burgers:\n");
+    for i in len(tag):
+        if ("burger" in tag[i]):
+            print("Code:", i, menu[i], "Price: $" + str(price));
+    while (True):
+        userInput = int(input("Please enter the code of your preferred food: "));
+        cart.append(userInput);
 
     # printing receipt
     print("\nReceipt");

@@ -16,9 +16,16 @@ Table of Content
   * non-void: specifications
 
 ### Stack Chart
-| Index | Menu | Price |
-| :-: | :-: | :-: |
-| 0 | salad | 10 |
-| 1 | fries | 10 |
-| 2 | beefBurger | 10 |
-| 3 | beefHotDog | 10 |
+| Index | Tag | Menu | Price |
+| :-: | :-: | :-: | :-: |
+| 0 | meat-burger | beefBurger | 10 |
+| 1 | burger | cheeseBurger | 10 |
+| 2 | meat-burger | doubleBurger | 10 |
+| 3 | meat-burger | chickenBurger | 10 |
+| 4 | meat-burger | sausageBurger | 10 |
+| 5 | beverage | fruitopiaStrawberry | 10 |
+| 6 | beverage | fruitopiaOrange | 10 |
+| 7 | beverage | coke | 10 |
+| 8 | beverage | dietCoke | 10 |
+| 9 | others | fries | 10 |
+| 10 | others | iceCream | 10 |
