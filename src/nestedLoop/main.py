@@ -99,6 +99,7 @@ while (True):
         if (userInput == "True"):
             break;
         else:
+            cart.clear();
             print("Please choose what you want again.");
 
     # price calculation
