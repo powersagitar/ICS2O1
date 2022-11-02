@@ -34,17 +34,18 @@ while (True):
             specificationStore = "None";
             break;
         # new specification check
-        conditionInnerWhile = input("Continue? Enter True or False: ");
-        if (conditionInnerWhile == "False"):
+        userInput = input("Continue? Enter True or False: ");
+        if (userInput == "False"):
             break;
     
     # avoiding specifications
     if ("vegie" in specificationStore):
         for i in len(tag):
             if (meat in tag[i]):
-                price[i] = "unavailable";
+                price[i] = "N/A";
     
-    #order
+    # ordering
+    # burgers
     print("Burgers:\n");
     for i in len(tag):
         if ("burger" in tag[i]):
@@ -52,6 +53,39 @@ while (True):
     while (True):
         userInput = int(input("Please enter the code of your preferred food: "));
         cart.append(userInput);
+        userInput = input("Anything else to order? Enter True or False: ");
+        if (userInput == "False"):
+            break;
+    
+    # beverages
+    print("Beverages:\n"):
+    for i in len(tag):
+        if ("beverage" in tag[i]):
+            print("Code:", i, menu[i], "Price: $" + str(price));
+    while (True):
+        userInput = int(input("Please enter the code for your preferred food: "));
+        cart.append(userInput);
+        userInput = input("Anything else to order? Enter True of False: ");
+        if (userInput == "False"):
+            break;
+
+    # others
+    print("Others:\n");
+    for i in len(tag):
+        if ("others" in tag[i]):
+            print("Code:", i, menu[i], "Price: $" + str(price));
+    while (True):
+        userInput = int(input("Please enter the code for your preferred food: "));
+        cart.append(userInput);
+        userInput = input("Anything else to order? Enter True or False: ");
+        if (userInput == "False"):
+            break;
+    
+    # order confirmation
+    userInput = input("Are those all the stuff you want? Enter True or False: ");
+    if (userInput == "True"):
+        for i in len(cart):
+            
 
     # printing receipt
     print("\nReceipt");
@@ -63,6 +97,6 @@ while (True):
         print("No special-day discount applied");
     
     # new customer check
-    conditionOuterWhile = input("Is there any more customers? Enter True or False: ")
-    if (conditionOuterWhile == "False"):
+    userInput = input("Is there any more customers? Enter True or False: ")
+    if (userInput == "False"):
         break;
