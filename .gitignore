@@ -156,3 +156,4 @@ cython_debug/
 *.json
 *.DS_Store
 *._
+.vscode/*
