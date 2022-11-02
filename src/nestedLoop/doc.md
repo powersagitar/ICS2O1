@@ -29,3 +29,6 @@ Table of Content
 | 8 | beverage | dietCoke | 10 |
 | 9 | others | fries | 10 |
 | 10 | others | iceCream | 10 |
+
+## Pending
+* Complete multi-purchase for a single product
