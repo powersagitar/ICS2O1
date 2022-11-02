@@ -12,13 +12,13 @@ dateD = int(input("Enter today's date (DD): "));
 # menu, tag, price, cart stack declaration (demo)
 menu = ["beefBurger", "cheeseBurger", "doubleBurger", "chickenBurger", "sausageBurger", "fruitopiaStrawberry", "fruitopiaOrange", "coke", "dietCoke", "fries", "iceCream"];
 tag = ["meat-burger", "burger", "meat-burger", "meat-burger", "meat-burger", "beverage", "beverage", "beverage", "beverage", "others", "others"];
-price = [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10];
+PRICE = [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10];
 cart = [];
 
 # fetch user input
 while (True):
     # variable initialization
-    actualPrice = price;
+    actualPrice = PRICE.copy();
     cart.clear();
     subtotal = 0;
     tax = 0;
@@ -26,7 +26,7 @@ while (True):
     # check special offer validation
     if (dateM == dateD):
         # apply special offer
-        for i in range(len(price)):
+        for i in range(len(actualPrice)):
             actualPrice[i] = actualPrice[i] * 0.8;
         discount = True;
     else:
@@ -91,6 +91,7 @@ while (True):
                 break;
         
         # order confirmation
+        print();
         for i in range(len(cart)):
                 print(str(i + 1) + ".", menu[cart[i]], "Price: $" + str(actualPrice[cart[i]]));
                 subtotal += actualPrice[cart[i]];
