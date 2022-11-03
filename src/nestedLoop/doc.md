@@ -17,7 +17,7 @@ Table of Content
   * non-void: specifications
 
 ### Stack Chart
-| Index |     Tag     |        Menu         | Price |  Arg  |
+| Index |     Tag     |        Menu         | Price |  Argu  |
 | :---: | :---------: | :-----------------: | :---: | :---: |
 |   0   | meat-burger |     beefBurger      |  10   |       |
 |   1   |   burger    |    cheeseBurger     |  10   |       |

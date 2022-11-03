@@ -14,11 +14,13 @@ menu = ["beefBurger", "cheeseBurger", "doubleBurger", "chickenBurger", "sausageB
 tag = ["meat-burger", "burger", "meat-burger", "meat-burger", "meat-burger", "beverage", "beverage", "beverage", "beverage", "others", "others"];
 PRICE = [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10];
 cart = [];
+argu = [];
 
 # fetch user input
 while (True):
     # variable initialization
     actualPrice = PRICE.copy();
+    argu.clear();
     cart.clear();
     subtotal = 0;
     tax = 0;
