@@ -14,13 +14,11 @@ menu = ["beefBurger", "cheeseBurger", "doubleBurger", "chickenBurger", "sausageB
 tag = ["meat-burger", "burger", "meat-burger", "meat-burger", "meat-burger", "beverage", "beverage", "beverage", "beverage", "others", "others"];
 PRICE = [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10];
 cart = [];
-argu = [];
 
 # fetch user input
 while (True):
     # variable initialization
     actualPrice = PRICE.copy();
-    argu.clear();
     cart.clear();
     subtotal = 0;
     tax = 0;
@@ -76,6 +74,15 @@ while (True):
         while (True):
             userInput = int(input("Please enter the code for your preferred food: "));
             cart.append(userInput);
+
+            userInput = int(input("Enter your cup size: 1 for large, 2 for medium, 3 for small: "));
+            if (userInput == 1):
+                actualPrice[cart[-1]] += 2;
+            elif (userInput == 3):
+                actualPrice[cart[-1]] -= 2;
+            else:
+                actualPrice[cart[-1]] = actualPrice[cart[-1]];
+
             userInput = input("Anything else to order? Enter True of False: ");
             if (userInput == "False"):
                 break;
@@ -96,7 +103,7 @@ while (True):
         print();
         for i in range(len(cart)):
                 print(str(i + 1) + ".", menu[cart[i]], "Price: $" + str(actualPrice[cart[i]]));
-                subtotal += actualPrice[cart[i]];
+                subtotal += actualPrice[cart[i]]; # subtotal calculation
         userInput = input("Are those all the stuff you want? Enter True or False: ");
         if (userInput == "True"):
             break;
