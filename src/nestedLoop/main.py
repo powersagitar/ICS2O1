@@ -32,6 +32,7 @@ while (True):
     print("MENU (Standard Price)");
 
     # ordering
+    # vegeterian
     if "vegie" in specifications:
         print("Burgers:");
         print("1. cheese burger: $10");
@@ -44,6 +45,7 @@ while (True):
         print("\nOthers:");
         print("10. fries: $10\n11. ice cream: $10");
         order = order + input();
+    # regular
     else:
         print("Burgers:");
         print("1. beef burger: $10\n2. cheese burger: $10\n3. double burger: $15\n4. chicken burger: $10\n5. sausage burger: $10");
@@ -117,11 +119,20 @@ while (True):
             subtotal -= 2;
         
     # tax and total
+    # special deal
+    if (dateM == dateD):
+        discount = True;
+        subtotal = round(subtotal * 0.8, 2);
+    else:
+        discount = False;
     tax = round((subtotal * 0.13), 2);
+    total = subtotal + tax;
 
     # printing receipt
     print("\nRECEIPT");
-    print("Total:", subtotal);
+    if (discount == True):
+        print("Special deal applied. You got 20% off for subtotal.")
+    print("Subtotal:", subtotal, "\nHST:", tax, "\nTotal:", total);
     
     # new customer check
     userInput = input("Is there any more customers? Enter \"true\" or \"false\": ")
