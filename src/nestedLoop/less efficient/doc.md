@@ -4,4 +4,6 @@ Table of Contents
   - [Pending](#pending)
 
 ## Pending
-* refunding
+* optimization
+* when special deal applied, print the original price as well
+* 
