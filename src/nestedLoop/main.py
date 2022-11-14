@@ -138,8 +138,7 @@ while (True):
     for i in range(cart.count('|') - 1):
         end = cart.index('|', start + 1);
         # find the nth occurrence of the divider
-        occurrence = cart.count('|', 0, end) - 1;
-        parts = actualPrice.split('|', occurrence + 1);
+        parts = actualPrice.split('|', int(cart[start + 1:cart.index('|', start + 1)]));
         index = len(actualPrice) - len(parts[-1]) - len('|');
 
         subtotal += float(actualPrice[index + 1:actualPrice.index('|', index + 1)]);
