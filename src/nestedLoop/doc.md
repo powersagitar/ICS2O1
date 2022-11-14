@@ -1,9 +1,16 @@
 # nestedLoop.py
 Table of Contents
 - [nestedLoop.py](#nestedlooppy)
+  - [Pending](#pending)
   - [Thinking](#thinking)
 
+
+## Pending
+* specification templates
+* ordering
 ## Thinking
 * use strings as arrays
 * the indicator is the second dot
-* python: doesn't support item assignment
+* divider choice: '|'
+* the indicator is the first '|'
+* use donation instead of tipping
