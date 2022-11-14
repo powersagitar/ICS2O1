@@ -1,3 +1,4 @@
+# find the nth occurrence of the divider
 def findnth(string, substring, n):
     parts = string.split(substring, n + 1)
     if len(parts) <= n + 1:
