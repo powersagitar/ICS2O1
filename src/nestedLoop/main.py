@@ -35,7 +35,7 @@ while (True):
     specifications = input("Enter your specifications, put '|' after each. If none, enter 'void': ");
     
     # updating actual price
-    if "vegie" in specifications:
+    if "veggie" in specifications:
         start = tag.index('|');
         for i in range(tag.count('|') - 1):
             end = tag.index('|', start + 1);
