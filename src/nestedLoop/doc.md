@@ -14,3 +14,4 @@ Table of Contents
 * divider choice: '|'
 * the indicator is the first '|'
 * use donation instead of tipping
+* give user a choice not to order anything

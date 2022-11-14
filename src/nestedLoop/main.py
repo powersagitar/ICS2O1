@@ -17,32 +17,54 @@ PRICE = "|10|10|10|10|10|10|10|10|10|10|10|"
 # fetch user input
 while (True):
     # variable initialization
-    cart = "|";
+    cart = '|';
+    actualPrice = '|';
     subtotal = 0;
     tax = 0;
 
     # check special offer validation
     if (dateM == dateD):
         # apply special offer
-        actualPrice = '|';
-        start = PRICE.index('|');
-        for i in range(PRICE.count('|') - 1):
-            end = PRICE.index('|', start + 1);
-            actualPrice += str(round((float(PRICE[start + 1:end]) * 0.8), 2)) + '|';
-            start = end;
         DISCOUNT = True;
     else:
-        actualPrice = PRICE;
         DISCOUNT = False;
 
     # fetch customer info
     name = input("Enter your name: ");
-    # specification check
-    userInput = input("Enter your specifications, put '|' after each specification (including last one). If none, enter 'void': ");
-    if (userInput != "void"):
-        specification = '|' + userInput;
+    # specifications check
+    specifications = input("Enter your specifications, put '|' after each. If none, enter 'void': ");
+    
+    # updating actual price
+    if "vegie" in specifications:
+        start = tag.index('|');
+        for i in range(tag.count('|') - 1):
+            end = tag.index('|', start + 1);
+            if ("meat" in tag[start + 1:end]):
+                actualPrice += "N/A|";
+            else:
+                # find the nth occurrence of the divider
+                occurrence = tag.count('|', 0, end) - 1;
+                parts = PRICE.split('|', occurrence + 1);
+                index = len(PRICE) - len(parts[-1]) - len('|');
+                if DISCOUNT:
+                    actualPrice += str(round((float(PRICE[index + 1:PRICE.index('|', index + 1)]) * 0.8), 2)) + '|';
+                else:
+                    actualPrice += str(float(PRICE[index + 1:PRICE.index('|', index + 1)])) + '|';
+            start = end;
     else:
-        specification = "void";
+        start = tag.index('|');
+        for i in range(tag.count('|') - 1):
+            end = tag.index('|', start + 1);
+            # find the nth occurrence of the divider
+            occurrence = tag.count('|', 0, end) - 1;
+            parts = PRICE.split('|', occurrence + 1);
+            index = len(PRICE) - len(parts[-1]) - len('|');
+            if DISCOUNT:
+                actualPrice += str(round((float(PRICE[index + 1:PRICE.index('|', index + 1)]) * 0.8), 2)) + '|';
+            else:
+                actualPrice += str(float(PRICE[index + 1:PRICE.index('|', index + 1)])) + '|';
+            start = end;
+
 
     # printing menu
     # burgers
