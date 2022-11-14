@@ -66,6 +66,7 @@ while (True):
 
 
     # printing menu
+    print("MENU (Standard Price)")
     # burgers
     print("\nBurgers");
     start = tag.index('|');
@@ -125,6 +126,27 @@ while (True):
     userInput = input("Are those all the stuff you want to buy? Enter 'true' or 'false': ");
     if (userInput == "false"):
         continue;
+    
+    # size choosing
+    print("\nFor each item, large size will charge $2 more, small size will charge $2 less, medium size will remain the standard price. No special deal will apply for this price change.");
+    start = cart.index('|');
+    for i in range(cart.count('|') - 1):
+        end = cart.index('|', start + 1);
+
+        # find the nth occurrence of the divider
+        parts = menu.split('|', int(cart[start + 1:cart.index('|', start + 1)]));
+        index = len(menu) - len(parts[-1]) - len('|');
+
+        print(menu[index + 1:menu.index('|', index + 1)], end = "");
+        argu = input(" size: \"large\" for large, \"medium\" for medium, \"small\" for small\n");
+        if (argu == "large"):
+            subtotal -= 2;
+            originalSubtotal -= 2;
+        elif (argu == "small"):
+            subtotal += 2;
+            originalSubtotal += 2;
+
+        start = end;
 
     # price calculation
     # subtotal calculation
