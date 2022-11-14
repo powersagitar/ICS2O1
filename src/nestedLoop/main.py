@@ -12,7 +12,7 @@ dateD = int(input("Enter today's date (DD): "));
 # variable initialization
 menu = "|beef burger|cheese burger|double burger|chicken burger|sausage burger|fruitopia strawberry|fruitopia orange|coke|diet coke|fries|ice cream|";
 tag = "|meat-burger|burger|meat-burger|meat-burger|meat-burger|beverage|beverage|beverage|beverage|others|others|";
-PRICE = "|10|10|10|10|10|10|10|10|10|10|10|"
+PRICE = "|10|11|12|13|14|15|16|17|18|19|20|"
 
 # fetch user input
 while (True):
@@ -21,6 +21,7 @@ while (True):
     actualPrice = '|';
     subtotal = 0;
     tax = 0;
+    originalSubtotal = 0;
 
     # check special offer validation
     if (dateM == dateD):
@@ -43,8 +44,7 @@ while (True):
                 actualPrice += "N/A|";
             else:
                 # find the nth occurrence of the divider
-                occurrence = tag.count('|', 0, end) - 1;
-                parts = PRICE.split('|', occurrence + 1);
+                parts = PRICE.split('|', tag.count('|', 0, end));
                 index = len(PRICE) - len(parts[-1]) - len('|');
                 if DISCOUNT:
                     actualPrice += str(round((float(PRICE[index + 1:PRICE.index('|', index + 1)]) * 0.8), 2)) + '|';
@@ -56,8 +56,7 @@ while (True):
         for i in range(tag.count('|') - 1):
             end = tag.index('|', start + 1);
             # find the nth occurrence of the divider
-            occurrence = tag.count('|', 0, end) - 1;
-            parts = PRICE.split('|', occurrence + 1);
+            parts = PRICE.split('|', tag.count('|', 0, end));
             index = len(PRICE) - len(parts[-1]) - len('|');
             if DISCOUNT:
                 actualPrice += str(round((float(PRICE[index + 1:PRICE.index('|', index + 1)]) * 0.8), 2)) + '|';
@@ -74,14 +73,12 @@ while (True):
         end = tag.index('|', start + 1);
         if ("burger" in tag[start + 1:end]):
             # menu - find the nth occurrence of the divider
-            occurrence = tag.count('|', 0, end) - 1;
-            parts = menu.split('|', occurrence + 1);
+            parts = menu.split('|', tag.count('|', 0, end));
             index = len(menu) - len(parts[-1]) - len('|');
             print(str(i + 1) + '.', menu[index + 1:menu.index('|', index + 1)], end = " Price: $");
 
             # actual price - find the nth occurrence of the divider
-            occurrence = tag.count('|', 0, end) - 1;
-            parts = actualPrice.split('|', occurrence + 1);
+            parts = actualPrice.split('|', tag.count('|', 0, end));
             index = len(actualPrice) - len(parts[-1]) - len('|');
             print(actualPrice[index + 1:actualPrice.index('|', index + 1)]);
         start = end;
@@ -94,14 +91,12 @@ while (True):
         end = tag.index('|', start + 1);
         if ("beverage" in tag[start + 1:end]):
             # menu - find the nth occurrence of the divider
-            occurrence = tag.count('|', 0, end) - 1;
-            parts = menu.split('|', occurrence + 1);
+            parts = menu.split('|', tag.count('|', 0, end));
             index = len(menu) - len(parts[-1]) - len('|');
             print(str(i + 1) + '.', menu[index + 1:menu.index('|', index + 1)], end = " Price: $");
 
             # actual price - find the nth occurrence of the divider
-            occurrence = tag.count('|', 0, end) - 1;
-            parts = actualPrice.split('|', occurrence + 1);
+            parts = actualPrice.split('|', tag.count('|', 0, end));
             index = len(actualPrice) - len(parts[-1]) - len('|');
             print(actualPrice[index + 1:actualPrice.index('|', index + 1)]);
         start = end;
@@ -114,14 +109,12 @@ while (True):
         end = tag.index('|', start + 1);
         if ("others" in tag[start + 1:end]):
             # menu - find the nth occurrence of the divider
-            occurrence = tag.count('|', 0, end) - 1;
-            parts = menu.split('|', occurrence + 1);
+            parts = menu.split('|', tag.count('|', 0, end));
             index = len(menu) - len(parts[-1]) - len('|');
             print(str(i + 1) + '.', menu[index + 1:menu.index('|', index + 1)], end = " Price: $");
 
             # actual price - find the nth occurrence of the divider
-            occurrence = tag.count('|', 0, end) - 1;
-            parts = actualPrice.split('|', occurrence + 1);
+            parts = actualPrice.split('|', tag.count('|', 0, end));
             index = len(actualPrice) - len(parts[-1]) - len('|');
             print(actualPrice[index + 1:actualPrice.index('|', index + 1)]);
         start = end;
@@ -133,6 +126,7 @@ while (True):
     if (userInput == "false"):
         continue;
 
+    # price calculation
     # subtotal calculation
     start = cart.index('|');
     for i in range(cart.count('|') - 1):
@@ -143,9 +137,29 @@ while (True):
 
         subtotal += float(actualPrice[index + 1:actualPrice.index('|', index + 1)]);
         start = end;
+
+    # original price calculation
+    if DISCOUNT:
+        start = cart.index('|');
+        for i in range(cart.count('|') - 1):
+            end = cart.index('|', start + 1);
+            # find the nth occurrence of the divider
+            parts = PRICE.split('|', int(cart[start + 1:cart.index('|', start + 1)]));
+            index = len(PRICE) - len(parts[-1]) - len('|');
+
+            originalSubtotal += float(PRICE[index + 1:PRICE.index('|', index + 1)]);
+            start = end;
+
+    # tax calculation
+    tax = round(subtotal * 0.13, 2);
     
     # printing receipt
+    print("RECEIPT");
+    if DISCOUNT:
+        print("Spcial deal applied. You got 20% off! The original subtotal was $" + str(originalSubtotal));
     print("Subtotal:", subtotal);
+    print("HST:", tax);
+    print("Total:", round((tax + subtotal), 2));
 
     # new customer check
     userInput = input("Is there any new customers? Enter 'true' or 'false': ");
