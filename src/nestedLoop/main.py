@@ -33,7 +33,9 @@ while (True):
     # fetch customer info
     name = input("Enter your name: ");
     # specifications check
-    specifications = input("Enter your specifications, put '|' after each. If none, enter 'void': ");
+    print("Enter your specifications, put '|' after each. If none, enter 'void'.");
+    print("Currently available specifications:\n'veggie'");
+    specifications = input("Specifications: ");
     
     # updating actual price
     if "veggie" in specifications:
@@ -66,9 +68,9 @@ while (True):
 
 
     # printing menu
-    print("MENU (Standard Price)")
+    print("\nMENU (Standard Price)")
     # burgers
-    print("\nBurgers");
+    print("Burgers");
     start = tag.index('|');
     for i in range(tag.count('|') - 1):
         end = tag.index('|', start + 1);
@@ -83,7 +85,9 @@ while (True):
             index = len(actualPrice) - len(parts[-1]) - len('|');
             print(actualPrice[index + 1:actualPrice.index('|', index + 1)]);
         start = end;
-    cart += input("Enter the code of your preferred items, put '|' after each (including last one): ");
+    userInput = input("Enter the code of your preferred items, put '|' after each (including last one). If you dont want to order anything, enter 'void': ");
+    if (userInput != "void"):
+        cart += userInput;
 
     # beverages
     print("\nBeverages");
@@ -101,7 +105,9 @@ while (True):
             index = len(actualPrice) - len(parts[-1]) - len('|');
             print(actualPrice[index + 1:actualPrice.index('|', index + 1)]);
         start = end;
-    cart += input("Enter the code of your preferred items, put '|' after each (including last one): ");
+    userInput = input("Enter the code of your preferred items, put '|' after each (including last one). If you dont want to order anything, enter 'void': ");
+    if (userInput != "void"):
+        cart += userInput;
 
     # others
     print("\nOthers");
@@ -119,8 +125,10 @@ while (True):
             index = len(actualPrice) - len(parts[-1]) - len('|');
             print(actualPrice[index + 1:actualPrice.index('|', index + 1)]);
         start = end;
-    cart += input("Enter the code of your preferred items, put '|' after each (including last one): ");
-
+    userInput = input("Enter the code of your preferred items, put '|' after each (including last one). If you dont want to order anything, enter 'void': ");
+    if (userInput != "void"):
+        cart += userInput;
+        
     # order confirmation
     print("\n", cart);
     userInput = input("Are those all the stuff you want to buy? Enter 'true' or 'false': ");
