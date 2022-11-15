@@ -6,7 +6,7 @@ Table of Contents
 
 
 ## Pending
-* specification templates
+* refunding system
 ## Thinking
 * use strings as arrays
 * the indicator is the second dot
