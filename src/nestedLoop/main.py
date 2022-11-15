@@ -148,11 +148,11 @@ while (True):
         print(menu[index + 1:menu.index('|', index + 1)], end = "");
         argu = input(" size: \"large\" for large, \"medium\" for medium, \"small\" for small\n");
         if (argu == "large"):
-            subtotal -= 2;
-            originalSubtotal -= 2;
-        elif (argu == "small"):
             subtotal += 2;
             originalSubtotal += 2;
+        elif (argu == "small"):
+            subtotal -= 2;
+            originalSubtotal -= 2;
 
         start = end;
 
