@@ -167,7 +167,7 @@ while (True):
 
         subtotal += float(actualPrice[index + 1:actualPrice.index('|', index + 1)]);
         start = end;
-
+    
     # original price calculation
     if DISCOUNT:
         start = cart.index('|');
@@ -180,6 +180,9 @@ while (True):
             originalSubtotal += float(PRICE[index + 1:PRICE.index('|', index + 1)]);
             start = end;
 
+    # donation
+    DONATION = float(input("Do you want to donate to the local food bank? If yes, enter the amount, if no, enter '0': "));
+
     # tax calculation
     tax = round(subtotal * 0.13, 2);
     
@@ -189,7 +192,8 @@ while (True):
         print("Spcial deal applied. You got 20% off! The original subtotal was $" + str(originalSubtotal));
     print("Subtotal:", subtotal);
     print("HST:", tax);
-    print("Total:", round((tax + subtotal), 2));
+    print("You donated $" + str(DONATION));
+    print("Total:", round((subtotal + tax + DONATION), 2));
 
     # new customer check
     userInput = input("Is there any new customers? Enter 'true' or 'false': ");
