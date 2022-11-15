@@ -7,6 +7,7 @@ Table of Contents
 
 ## Pending
 * refunding system
+* input mistake check
 ## Thinking
 * use strings as arrays
 * the indicator is the second dot
