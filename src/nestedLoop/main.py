@@ -42,21 +42,41 @@ while (True):
     else:
         DISCOUNT = False;
 
-    # fetch customer info
-    name = input("Enter your name: ");
-    # specifications check
-    print("Enter your specifications, put '|' after each. If none, enter 'void'.");
-    print("Currently available specifications:\n'veggie'");
-    specifications = input("Specifications: ");
-    
-    # updating actual price
-    if "veggie" in specifications:
-        start = tag.index('|');
-        for i in range(tag.count('|') - 1):
-            end = tag.index('|', start + 1);
-            if ("meat" in tag[start + 1:end]):
-                actualPrice += "N/A|";
-            else:
+    # mode selection
+    print("\nMain\n0. Exit\n1. Purchase mode\n2. Refund mode\n3. Check out");
+    userInput = int(input("Enter the sub menu (code) you want to enter: "));
+
+    if (userInput == 0): # exit
+        break;
+
+    elif (userInput == 1): # mode purchase
+        # fetch customer info
+        name = input("Enter your name: ");
+        # specifications check
+        print("Enter your specifications, put '|' after each. If none, enter 'void'.");
+        print("Currently available specifications:\n'veggie'");
+        specifications = input("Specifications: ");
+        
+        # updating actual price
+        if "veggie" in specifications:
+            start = tag.index('|');
+            for i in range(tag.count('|') - 1):
+                end = tag.index('|', start + 1);
+                if ("meat" in tag[start + 1:end]):
+                    actualPrice += "N/A|";
+                else:
+                    # find the nth occurrence of the divider
+                    parts = PRICE.split('|', tag.count('|', 0, end));
+                    index = len(PRICE) - len(parts[-1]) - len('|');
+                    if DISCOUNT:
+                        actualPrice += str(round((float(PRICE[index + 1:PRICE.index('|', index + 1)]) * 0.8), 2)) + '|';
+                    else:
+                        actualPrice += str(float(PRICE[index + 1:PRICE.index('|', index + 1)])) + '|';
+                start = end;
+        else:
+            start = tag.index('|');
+            for i in range(tag.count('|') - 1):
+                end = tag.index('|', start + 1);
                 # find the nth occurrence of the divider
                 parts = PRICE.split('|', tag.count('|', 0, end));
                 index = len(PRICE) - len(parts[-1]) - len('|');
@@ -64,117 +84,109 @@ while (True):
                     actualPrice += str(round((float(PRICE[index + 1:PRICE.index('|', index + 1)]) * 0.8), 2)) + '|';
                 else:
                     actualPrice += str(float(PRICE[index + 1:PRICE.index('|', index + 1)])) + '|';
-            start = end;
-    else:
+                start = end;
+
+
+        # printing menu
+        print("\nMENU (Standard Price)")
+        # burgers
+        print("Burgers");
         start = tag.index('|');
         for i in range(tag.count('|') - 1):
             end = tag.index('|', start + 1);
-            # find the nth occurrence of the divider
-            parts = PRICE.split('|', tag.count('|', 0, end));
-            index = len(PRICE) - len(parts[-1]) - len('|');
-            if DISCOUNT:
-                actualPrice += str(round((float(PRICE[index + 1:PRICE.index('|', index + 1)]) * 0.8), 2)) + '|';
-            else:
-                actualPrice += str(float(PRICE[index + 1:PRICE.index('|', index + 1)])) + '|';
+            if ("burger" in tag[start + 1:end]):
+                # menu - find the nth occurrence of the divider
+                parts = menu.split('|', tag.count('|', 0, end));
+                index = len(menu) - len(parts[-1]) - len('|');
+                print(str(i + 1) + '.', menu[index + 1:menu.index('|', index + 1)], end = " Price: $");
+
+                # actual price - find the nth occurrence of the divider
+                parts = actualPrice.split('|', tag.count('|', 0, end));
+                index = len(actualPrice) - len(parts[-1]) - len('|');
+                print(actualPrice[index + 1:actualPrice.index('|', index + 1)]);
             start = end;
+        userInput = input("Enter the code of your preferred items, put '|' after each (including last one). If you dont want to order anything, enter 'void': ");
+        if (userInput != "void"):
+            cart += userInput;
 
+        # beverages
+        print("\nBeverages");
+        start = tag.index('|');
+        for i in range(tag.count('|') - 1):
+            end = tag.index('|', start + 1);
+            if ("beverage" in tag[start + 1:end]):
+                # menu - find the nth occurrence of the divider
+                parts = menu.split('|', tag.count('|', 0, end));
+                index = len(menu) - len(parts[-1]) - len('|');
+                print(str(i + 1) + '.', menu[index + 1:menu.index('|', index + 1)], end = " Price: $");
 
-    # printing menu
-    print("\nMENU (Standard Price)")
-    # burgers
-    print("Burgers");
-    start = tag.index('|');
-    for i in range(tag.count('|') - 1):
-        end = tag.index('|', start + 1);
-        if ("burger" in tag[start + 1:end]):
-            # menu - find the nth occurrence of the divider
-            parts = menu.split('|', tag.count('|', 0, end));
-            index = len(menu) - len(parts[-1]) - len('|');
-            print(str(i + 1) + '.', menu[index + 1:menu.index('|', index + 1)], end = " Price: $");
+                # actual price - find the nth occurrence of the divider
+                parts = actualPrice.split('|', tag.count('|', 0, end));
+                index = len(actualPrice) - len(parts[-1]) - len('|');
+                print(actualPrice[index + 1:actualPrice.index('|', index + 1)]);
+            start = end;
+        userInput = input("Enter the code of your preferred items, put '|' after each (including last one). If you dont want to order anything, enter 'void': ");
+        if (userInput != "void"):
+            cart += userInput;
 
-            # actual price - find the nth occurrence of the divider
-            parts = actualPrice.split('|', tag.count('|', 0, end));
-            index = len(actualPrice) - len(parts[-1]) - len('|');
-            print(actualPrice[index + 1:actualPrice.index('|', index + 1)]);
-        start = end;
-    userInput = input("Enter the code of your preferred items, put '|' after each (including last one). If you dont want to order anything, enter 'void': ");
-    if (userInput != "void"):
-        cart += userInput;
+        # others
+        print("\nOthers");
+        start = tag.index('|');
+        for i in range(tag.count('|') - 1):
+            end = tag.index('|', start + 1);
+            if ("others" in tag[start + 1:end]):
+                # menu - find the nth occurrence of the divider
+                parts = menu.split('|', tag.count('|', 0, end));
+                index = len(menu) - len(parts[-1]) - len('|');
+                print(str(i + 1) + '.', menu[index + 1:menu.index('|', index + 1)], end = " Price: $");
 
-    # beverages
-    print("\nBeverages");
-    start = tag.index('|');
-    for i in range(tag.count('|') - 1):
-        end = tag.index('|', start + 1);
-        if ("beverage" in tag[start + 1:end]):
-            # menu - find the nth occurrence of the divider
-            parts = menu.split('|', tag.count('|', 0, end));
-            index = len(menu) - len(parts[-1]) - len('|');
-            print(str(i + 1) + '.', menu[index + 1:menu.index('|', index + 1)], end = " Price: $");
-
-            # actual price - find the nth occurrence of the divider
-            parts = actualPrice.split('|', tag.count('|', 0, end));
-            index = len(actualPrice) - len(parts[-1]) - len('|');
-            print(actualPrice[index + 1:actualPrice.index('|', index + 1)]);
-        start = end;
-    userInput = input("Enter the code of your preferred items, put '|' after each (including last one). If you dont want to order anything, enter 'void': ");
-    if (userInput != "void"):
-        cart += userInput;
-
-    # others
-    print("\nOthers");
-    start = tag.index('|');
-    for i in range(tag.count('|') - 1):
-        end = tag.index('|', start + 1);
-        if ("others" in tag[start + 1:end]):
-            # menu - find the nth occurrence of the divider
-            parts = menu.split('|', tag.count('|', 0, end));
-            index = len(menu) - len(parts[-1]) - len('|');
-            print(str(i + 1) + '.', menu[index + 1:menu.index('|', index + 1)], end = " Price: $");
-
-            # actual price - find the nth occurrence of the divider
-            parts = actualPrice.split('|', tag.count('|', 0, end));
-            index = len(actualPrice) - len(parts[-1]) - len('|');
-            print(actualPrice[index + 1:actualPrice.index('|', index + 1)]);
-        start = end;
-    userInput = input("Enter the code of your preferred items, put '|' after each (including last one). If you dont want to order anything, enter 'void': ");
-    if (userInput != "void"):
-        cart += userInput;
+                # actual price - find the nth occurrence of the divider
+                parts = actualPrice.split('|', tag.count('|', 0, end));
+                index = len(actualPrice) - len(parts[-1]) - len('|');
+                print(actualPrice[index + 1:actualPrice.index('|', index + 1)]);
+            start = end;
+        userInput = input("Enter the code of your preferred items, put '|' after each (including last one). If you dont want to order anything, enter 'void': ");
+        if (userInput != "void"):
+            cart += userInput;
+            
+        # order confirmation
+        print("\n", cart);
+        userInput = input("Are those all the stuff you want to buy? Enter 'true' or 'false': ");
+        if (userInput == "false"):
+            continue;
         
-    # order confirmation
-    print("\n", cart);
-    userInput = input("Are those all the stuff you want to buy? Enter 'true' or 'false': ");
-    if (userInput == "false"):
-        continue;
+        # size choosing
+        print("\nFor each item, large size will charge $2 more, small size will charge $2 less, medium size will remain the standard price. No special deal will apply for this price change.");
+        start = cart.index('|');
+        for i in range(cart.count('|') - 1):
+            end = cart.index('|', start + 1);
+
+            # find the nth occurrence of the divider
+            parts = menu.split('|', int(cart[start + 1:cart.index('|', start + 1)]));
+            index = len(menu) - len(parts[-1]) - len('|');
+
+            print(menu[index + 1:menu.index('|', index + 1)], end = "");
+            argu = input(" size: \"large\" for large, \"medium\" for medium, \"small\" for small\n");
+            if (argu == "large"):
+                subtotal += 2;
+                originalSubtotal += 2;
+            elif (argu == "small"):
+                subtotal -= 2;
+                originalSubtotal -= 2;
+
+            start = end;
     
-    # size choosing
-    print("\nFor each item, large size will charge $2 more, small size will charge $2 less, medium size will remain the standard price. No special deal will apply for this price change.");
-    start = cart.index('|');
-    for i in range(cart.count('|') - 1):
-        end = cart.index('|', start + 1);
-
-        # find the nth occurrence of the divider
-        parts = menu.split('|', int(cart[start + 1:cart.index('|', start + 1)]));
-        index = len(menu) - len(parts[-1]) - len('|');
-
-        print(menu[index + 1:menu.index('|', index + 1)], end = "");
-        argu = input(" size: \"large\" for large, \"medium\" for medium, \"small\" for small\n");
-        if (argu == "large"):
-            subtotal += 2;
-            originalSubtotal += 2;
-        elif (argu == "small"):
-            subtotal -= 2;
-            originalSubtotal -= 2;
-
-        start = end;
-    
-    # refunding
-    userInput = input("Do you want to request for a refund? Enter 'true' or 'false': ");
-    if (userInput == "true"):
+    elif (userInput == 2): # mode refund
+        # refunding
         print("You ordered:", cart);
         i = 0;
+        userInput = "true";
         while (userInput == "true"):
             i += 1;
+            if (i > (cart.count('|') - 1) or (cart.count('|') - 1) <= 0):
+                print("There is nothing in the queue.");
+                break;
+
             refund = int(input("Enter the item you want to return. Enter ONE item each prompt: "));
 
             userInput = input("Enter the size of the item ('large', 'medium', 'small'): ");
@@ -195,58 +207,48 @@ while (True):
             index = len(PRICE) - len(parts[-1]) - len('|');
             originalSubtotal -= float(PRICE[index + 1:PRICE.index('|', index + 1)]);
 
-            if (i >= (cart.count('|') - 1)):
-                print("There is nothing left.");
-                break;
-
             userInput = input("Do you want to return anything else? Enter 'true' or 'false': ");
 
-
-
-    # price calculation
-    # subtotal calculation
-    start = cart.index('|');
-    for i in range(cart.count('|') - 1):
-        end = cart.index('|', start + 1);
-        # find the nth occurrence of the divider
-        parts = actualPrice.split('|', int(cart[start + 1:cart.index('|', start + 1)]));
-        index = len(actualPrice) - len(parts[-1]) - len('|');
-
-        subtotal += float(actualPrice[index + 1:actualPrice.index('|', index + 1)]);
-        start = end;
-    
-    # original price calculation
-    if DISCOUNT:
+    elif (userInput == 3): # mode check out
+        # price calculation
+        # subtotal calculation
         start = cart.index('|');
         for i in range(cart.count('|') - 1):
             end = cart.index('|', start + 1);
             # find the nth occurrence of the divider
-            parts = PRICE.split('|', int(cart[start + 1:cart.index('|', start + 1)]));
-            index = len(PRICE) - len(parts[-1]) - len('|');
+            parts = actualPrice.split('|', int(cart[start + 1:cart.index('|', start + 1)]));
+            index = len(actualPrice) - len(parts[-1]) - len('|');
 
-            originalSubtotal += float(PRICE[index + 1:PRICE.index('|', index + 1)]);
+            subtotal += float(actualPrice[index + 1:actualPrice.index('|', index + 1)]);
             start = end;
-    
-    # format prices
-    subtotal = abs(round(subtotal, 2));
-    originalSubtotal = abs(round(originalSubtotal, 2));
+        
+        # original price calculation
+        if DISCOUNT:
+            start = cart.index('|');
+            for i in range(cart.count('|') - 1):
+                end = cart.index('|', start + 1);
+                # find the nth occurrence of the divider
+                parts = PRICE.split('|', int(cart[start + 1:cart.index('|', start + 1)]));
+                index = len(PRICE) - len(parts[-1]) - len('|');
 
-    # donation
-    DONATION = float(input("Do you want to donate to the local food bank? If yes, enter the amount, if no, enter '0': "));
+                originalSubtotal += float(PRICE[index + 1:PRICE.index('|', index + 1)]);
+                start = end;
+        
+        # format prices
+        subtotal = abs(round(subtotal, 2));
+        originalSubtotal = abs(round(originalSubtotal, 2));
 
-    # tax calculation
-    tax = round(subtotal * 0.13, 2);
-    
-    # printing receipt
-    print("RECEIPT");
-    if (DISCOUNT and originalSubtotal != 0):
-        print("Spcial deal applied. You got 20% off! The original subtotal was $" + str(originalSubtotal));
-    print("Subtotal: $" + str(subtotal));
-    print("HST: $" + str(tax));
-    print("You donated $" + str(DONATION));
-    print("Total: $" + str(round((subtotal + tax + DONATION), 2)));
+        # donation
+        DONATION = float(input("Do you want to donate to the local food bank? If yes, enter the amount, if not, enter '0': "));
 
-    # new customer check
-    userInput = input("Is there any new customers? Enter 'true' or 'false': ");
-    if (userInput == "false"):
-        break;
+        # tax calculation
+        tax = round(subtotal * 0.13, 2);
+        
+        # printing receipt
+        print("\nRECEIPT");
+        if (DISCOUNT and originalSubtotal != 0):
+            print("Spcial deal applied. You got 20% off! The original subtotal was $" + str(originalSubtotal));
+        print("Subtotal: $" + str(subtotal));
+        print("HST: $" + str(tax));
+        print("You donated $" + str(DONATION));
+        print("Total: $" + str(round((subtotal + tax + DONATION), 2)));
