@@ -8,6 +8,18 @@
 # date check
 dateM = int(input("Enter today's date (MM): "));
 dateD = int(input("Enter today's date (DD): "));
+if (dateM == (1 or 3 or 5 or 7 or 8 or 10 or 12)):
+    if (dateD > 31 or dateD <= 0):
+        print("The entered date is invalid.");
+        exit(-1);
+elif (dateM == 2):
+    if (dateD > 29 or dateD <= 0):
+        print("The entered date is invalid.");
+        exit(-1);
+else: # (dateM == (4 or 6 or 9 or 11)) or (dateM <= 0 or dateM > 12)
+    if (dateD > 30 or dateD <= 0 or dateM <= 0 or dateM > 12):
+        print("The entered date is invalid.");
+        exit(-1);
 
 # variable initialization
 menu = "|beef burger|cheese burger|double burger|chicken burger|sausage burger|fruitopia strawberry|fruitopia orange|coke|diet coke|fries|ice cream|";
