@@ -155,6 +155,41 @@ while (True):
             originalSubtotal -= 2;
 
         start = end;
+    
+    # refunding
+    userInput = input("Do you want to request for a refund? Enter 'true' or 'false': ");
+    if (userInput == "true"):
+        print("You ordered:", cart);
+        i = 0;
+        while (userInput == "true"):
+            i += 1;
+            refund = int(input("Enter the item you want to return. Enter ONE item each prompt: "));
+
+            userInput = input("Enter the size of the item ('large', 'medium', 'small'): ");
+            if (userInput == "large"):
+                subtotal -= 2;
+                originalSubtotal -= 2;
+            elif (userInput == "small"):
+                subtotal += 2;
+                originalSubtotal += 2;
+            
+            # find the nth occurrence of the divider
+            parts = actualPrice.split('|', refund);
+            index = len(actualPrice) - len(parts[-1]) - len('|');
+            subtotal -= float(actualPrice[index + 1:actualPrice.index('|', index + 1)]);
+
+            # find the nth occurrence of the divider
+            parts = PRICE.split('|', refund);
+            index = len(PRICE) - len(parts[-1]) - len('|');
+            originalSubtotal -= float(PRICE[index + 1:PRICE.index('|', index + 1)]);
+
+            if (i >= (cart.count('|') - 1)):
+                print("There is nothing left.");
+                break;
+
+            userInput = input("Do you want to return anything else? Enter 'true' or 'false': ");
+
+
 
     # price calculation
     # subtotal calculation
@@ -179,6 +214,10 @@ while (True):
 
             originalSubtotal += float(PRICE[index + 1:PRICE.index('|', index + 1)]);
             start = end;
+    
+    # format prices
+    subtotal = abs(round(subtotal, 2));
+    originalSubtotal = abs(round(originalSubtotal, 2));
 
     # donation
     DONATION = float(input("Do you want to donate to the local food bank? If yes, enter the amount, if no, enter '0': "));
@@ -188,12 +227,12 @@ while (True):
     
     # printing receipt
     print("RECEIPT");
-    if DISCOUNT:
+    if (DISCOUNT and originalSubtotal != 0):
         print("Spcial deal applied. You got 20% off! The original subtotal was $" + str(originalSubtotal));
-    print("Subtotal:", subtotal);
-    print("HST:", tax);
+    print("Subtotal: $" + str(subtotal));
+    print("HST: $" + str(tax));
     print("You donated $" + str(DONATION));
-    print("Total:", round((subtotal + tax + DONATION), 2));
+    print("Total: $" + str(round((subtotal + tax + DONATION), 2)));
 
     # new customer check
     userInput = input("Is there any new customers? Enter 'true' or 'false': ");
