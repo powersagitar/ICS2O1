@@ -149,12 +149,12 @@ while (True):
                 index = len(actualPrice) - len(parts[-1]) - len('|');
                 print(actualPrice[index + 1:actualPrice.index('|', index + 1)]);
             start = end;
-        userInput = input("Enter the code of your preferred items, put '|' after each (including last one). If you dont want to order anything, enter 'void': ");
-        if (userInput != "void"):
-            cart += userInput;
             
         # order confirmation
         while (True):
+            userInput = input("Enter the code of your preferred items, put '|' after each (including last one). If you dont want to order anything, enter 'void': ");
+            if (userInput != "void"):
+                cart += userInput;
             print("\n", cart);
             userInput = input("Are those all the stuff you want to buy? Enter 'true' or 'false': ");
             if (userInput == "false"):
