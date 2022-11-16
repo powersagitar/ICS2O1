@@ -25,16 +25,12 @@ else: # (dateM == (4 or 6 or 9 or 11)) or (dateM <= 0 or dateM > 12)
 menu = "|beef burger|cheese burger|double burger|chicken burger|sausage burger|fruitopia strawberry|fruitopia orange|coke|diet coke|fries|ice cream|";
 tag = "|meat-burger|burger|meat-burger|meat-burger|meat-burger|beverage|beverage|beverage|beverage|others|others|";
 PRICE = "|10|11|12|13|14|15|16|17|18|19|20|"
+customerCount = 0;
+revenue = 0;
+donationReceived = 0;
 
 # fetch user input
 while (True):
-    # variable initialization
-    cart = '|';
-    actualPrice = '|';
-    subtotal = 0;
-    tax = 0;
-    originalSubtotal = 0;
-
     # check special offer validation
     if (dateM == dateD):
         # apply special offer
@@ -43,13 +39,21 @@ while (True):
         DISCOUNT = False;
 
     # mode selection
-    print("\nMain\n0. Exit\n1. Purchase mode\n2. Refund mode\n3. Check out");
+    print("\nMain\n0. Exit\n1. Purchase mode (Will lose all the ordered items after re-entry)\n2. Refund mode\n3. Check out\n4. Show data analysis");
     userInput = int(input("Enter the sub menu (code) you want to enter: "));
+    print(); # changing line (beautifing)
 
     if (userInput == 0): # exit
         break;
 
     elif (userInput == 1): # mode purchase
+        # initialize and reset variables
+        cart = '|';
+        actualPrice = '|';
+        subtotal = 0;
+        tax = 0;
+        originalSubtotal = 0;
+
         # fetch customer info
         name = input("Enter your name: ");
         # specifications check
@@ -150,10 +154,13 @@ while (True):
             cart += userInput;
             
         # order confirmation
-        print("\n", cart);
-        userInput = input("Are those all the stuff you want to buy? Enter 'true' or 'false': ");
-        if (userInput == "false"):
-            continue;
+        while (True):
+            print("\n", cart);
+            userInput = input("Are those all the stuff you want to buy? Enter 'true' or 'false': ");
+            if (userInput == "false"):
+                continue;
+            else:
+                break;
         
         # size choosing
         print("\nFor each item, large size will charge $2 more, small size will charge $2 less, medium size will remain the standard price. No special deal will apply for this price change.");
@@ -239,7 +246,7 @@ while (True):
         originalSubtotal = abs(round(originalSubtotal, 2));
 
         # donation
-        DONATION = float(input("Do you want to donate to the local food bank? If yes, enter the amount, if not, enter '0': "));
+        donation = float(input("Do you want to donate to the local food bank? If yes, enter the amount, if not, enter '0': "));
 
         # tax calculation
         tax = round(subtotal * 0.13, 2);
@@ -250,5 +257,19 @@ while (True):
             print("Spcial deal applied. You got 20% off! The original subtotal was $" + str(originalSubtotal));
         print("Subtotal: $" + str(subtotal));
         print("HST: $" + str(tax));
-        print("You donated $" + str(DONATION));
-        print("Total: $" + str(round((subtotal + tax + DONATION), 2)));
+        print("You donated $" + str(donation));
+        print("Total: $" + str(round((subtotal + tax + donation), 2)));
+
+        # update analysis
+        customerCount += 1;
+        revenue += subtotal + tax;
+        donationReceived += donation;
+
+    elif (userInput == 4):
+        print("Data Analysis (this session)");
+        if (customerCount == 0):
+            print("Nobody has come since now.");
+        else:
+            print("Customer served:", customerCount);
+            print("Revenue: $" + str(revenue));
+            print("Average consumption: $" + str(round(revenue / customerCount, 2)));
