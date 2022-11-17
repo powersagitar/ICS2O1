@@ -207,7 +207,7 @@ while (True):
         userInput = "true";
         while (userInput == "true"):
             i += 1;
-            if (i > (cart.count('|') - 1) or (cart.count('|') - 1) <= 0):
+            if (i > (cart.count('|') - 1) or (cart.count('|') <= 1)):
                 print("There is nothing in the queue.");
                 break;
 
