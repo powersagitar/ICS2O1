@@ -30,16 +30,15 @@ refundToken = False;
 customerCount = 0;
 revenue = 0;
 donationReceived = 0;
+# check special offer validation
+if (dateM == dateD):
+    # apply special offer
+    DISCOUNT = True;
+else:
+    DISCOUNT = False;
 
 # fetch user input
 while (True):
-    # check special offer validation
-    if (dateM == dateD):
-        # apply special offer
-        DISCOUNT = True;
-    else:
-        DISCOUNT = False;
-
     # mode selection
     print("\nMain\n0. Exit\n1. Purchase mode (Will lose all the ordered items after re-entry)\n2. Refund mode (Can only enter once)\n3. Check out\n4. Show data analysis");
     userInput = int(input("Enter the sub menu (code) you want to enter: "));
