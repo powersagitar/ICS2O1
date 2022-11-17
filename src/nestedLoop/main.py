@@ -25,6 +25,7 @@ else: # (dateM == (4 or 6 or 9 or 11)) or (dateM <= 0 or dateM > 12)
 menu = "|beef burger|cheese burger|double burger|chicken burger|sausage burger|fruitopia strawberry|fruitopia orange|coke|diet coke|fries|ice cream|";
 tag = "|meat-burger|burger|meat-burger|meat-burger|meat-burger|beverage|beverage|beverage|beverage|others|others|";
 PRICE = "|10|11|12|13|14|15|16|17|18|19|20|"
+cart = '|';
 customerCount = 0;
 revenue = 0;
 donationReceived = 0;
@@ -62,6 +63,7 @@ while (True):
         specifications = input("Specifications: ");
         
         # updating actual price
+        # veggie menu
         if "veggie" in specifications:
             start = tag.index('|');
             for i in range(tag.count('|') - 1):
@@ -77,7 +79,9 @@ while (True):
                     else:
                         actualPrice += str(float(PRICE[index + 1:PRICE.index('|', index + 1)])) + '|';
                 start = end;
-        else:
+
+        # regular menu
+        elif "void" in specifications:
             start = tag.index('|');
             for i in range(tag.count('|') - 1):
                 end = tag.index('|', start + 1);
@@ -89,6 +93,10 @@ while (True):
                 else:
                     actualPrice += str(float(PRICE[index + 1:PRICE.index('|', index + 1)])) + '|';
                 start = end;
+
+        else:
+            print("Invalid input.");
+            continue;
 
 
         # printing menu
@@ -155,12 +163,15 @@ while (True):
             userInput = input("Enter the code of your preferred items, put '|' after each (including last one). If you dont want to order anything, enter 'void': ");
             if (userInput != "void"):
                 cart += userInput;
-            print("\n", cart);
+            print("\nYour order:", cart);
             userInput = input("Are those all the stuff you want to buy? Enter 'true' or 'false': ");
             if (userInput == "false"):
                 continue;
-            else:
+            elif (userInput == "true"):
                 break;
+            else:
+                print("Invalid input.");
+                continue;
         
         # size choosing
         print("\nFor each item, large size will charge $2 more, small size will charge $2 less, medium size will remain the standard price. No special deal will apply for this price change.");
@@ -180,6 +191,12 @@ while (True):
             elif (argu == "small"):
                 subtotal -= 2;
                 originalSubtotal -= 2;
+            elif (argu == "medium"):
+                subtotal += 0;
+                originalSubtotal += 0;
+            else:
+                print("Invalid input.");
+                break;
 
             start = end;
     
@@ -203,6 +220,12 @@ while (True):
             elif (userInput == "small"):
                 subtotal += 2;
                 originalSubtotal += 2;
+            elif (userInput == "medium"):
+                subtotal += 0;
+                originalSubtotal += 0;
+            else:
+                print("Invalid input.");
+                break;
             
             # find the nth occurrence of the divider
             parts = actualPrice.split('|', refund);
@@ -215,61 +238,78 @@ while (True):
             originalSubtotal -= float(PRICE[index + 1:PRICE.index('|', index + 1)]);
 
             userInput = input("Do you want to return anything else? Enter 'true' or 'false': ");
+            if (userInput != "true" and userInput != "false"):
+                print("Invalid input.");
+                continue;
+            # if (userInput == "true"): continue; elif (userInput == "false"): break;
 
     elif (userInput == 3): # mode check out
-        # price calculation
-        # subtotal calculation
-        start = cart.index('|');
-        for i in range(cart.count('|') - 1):
-            end = cart.index('|', start + 1);
-            # find the nth occurrence of the divider
-            parts = actualPrice.split('|', int(cart[start + 1:cart.index('|', start + 1)]));
-            index = len(actualPrice) - len(parts[-1]) - len('|');
-
-            subtotal += float(actualPrice[index + 1:actualPrice.index('|', index + 1)]);
-            start = end;
-        
-        # original price calculation
-        if DISCOUNT:
+        if (cart.count('|') > 1):
+            # price calculation
+            # subtotal calculation
             start = cart.index('|');
             for i in range(cart.count('|') - 1):
                 end = cart.index('|', start + 1);
                 # find the nth occurrence of the divider
-                parts = PRICE.split('|', int(cart[start + 1:cart.index('|', start + 1)]));
-                index = len(PRICE) - len(parts[-1]) - len('|');
+                parts = actualPrice.split('|', int(cart[start + 1:cart.index('|', start + 1)]));
+                index = len(actualPrice) - len(parts[-1]) - len('|');
 
-                originalSubtotal += float(PRICE[index + 1:PRICE.index('|', index + 1)]);
+                subtotal += float(actualPrice[index + 1:actualPrice.index('|', index + 1)]);
                 start = end;
-        
-        # format prices
-        subtotal = abs(round(subtotal, 2));
-        originalSubtotal = abs(round(originalSubtotal, 2));
+            
+            # original price calculation
+            if DISCOUNT:
+                start = cart.index('|');
+                for i in range(cart.count('|') - 1):
+                    end = cart.index('|', start + 1);
+                    # find the nth occurrence of the divider
+                    parts = PRICE.split('|', int(cart[start + 1:cart.index('|', start + 1)]));
+                    index = len(PRICE) - len(parts[-1]) - len('|');
 
-        # donation
-        donation = float(input("Do you want to donate to the local food bank? If yes, enter the amount, if not, enter '0': "));
+                    originalSubtotal += float(PRICE[index + 1:PRICE.index('|', index + 1)]);
+                    start = end;
+            
+            # format prices
+            subtotal = abs(round(subtotal, 2));
+            originalSubtotal = abs(round(originalSubtotal, 2));
 
-        # tax calculation
-        tax = round(subtotal * 0.13, 2);
-        
-        # printing receipt
-        print("\nRECEIPT");
-        if (DISCOUNT and originalSubtotal != 0):
-            print("Spcial deal applied. You got 20% off! The original subtotal was $" + str(originalSubtotal));
-        print("Subtotal: $" + str(subtotal));
-        print("HST: $" + str(tax));
-        print("You donated $" + str(donation));
-        print("Total: $" + str(round((subtotal + tax + donation), 2)));
+            # donation
+            donation = round(float(input("Do you want to donate to the local food bank? If yes, enter the amount, if not, enter '0': ")), 2);
 
-        # update analysis
-        customerCount += 1;
-        revenue += subtotal + tax;
-        donationReceived += donation;
+            # tax calculation
+            tax = round(subtotal * 0.13, 2);
+            
+            # printing receipt
+            print("\nRECEIPT");
+            print("Hi", name + "!");
+            if (DISCOUNT and originalSubtotal != 0):
+                print("Spcial deal applied. You got 20% off! The original subtotal was $" + str(originalSubtotal));
+            print("Subtotal: $" + str(subtotal));
+            print("HST: $" + str(tax));
+            print("You donated $" + str(donation));
+            print("Total: $" + str(round((subtotal + tax + donation), 2)));
+            print("Thanks for purchasing! Have a nice day!");
+
+            # update analysis
+            customerCount += 1;
+            revenue += subtotal + tax;
+            donationReceived += donation;
+
+        else:
+            print("Cart is empty.");
+            continue;
 
     elif (userInput == 4):
-        print("Data Analysis (this session)");
+        print("\nData Analysis (this session)");
         if (customerCount == 0):
             print("Nobody has come since now.");
         else:
             print("Customer served:", customerCount);
-            print("Revenue: $" + str(revenue));
+            print("Revenue: $" + str(round(revenue, 2)));
             print("Average consumption: $" + str(round(revenue / customerCount, 2)));
+            print("Donation received: $" + str(donationReceived));
+            print("Average donation: $" + str(round(donationReceived / customerCount, 2)));
+
+    else:
+        print("Invalid input.");
+        continue;
