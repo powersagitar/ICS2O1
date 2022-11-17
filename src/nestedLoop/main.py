@@ -26,6 +26,7 @@ menu = "|beef burger|cheese burger|double burger|chicken burger|sausage burger|f
 tag = "|meat-burger|burger|meat-burger|meat-burger|meat-burger|beverage|beverage|beverage|beverage|others|others|";
 PRICE = "|10|11|12|13|14|15|16|17|18|19|20|"
 cart = '|';
+refundToken = False;
 customerCount = 0;
 revenue = 0;
 donationReceived = 0;
@@ -40,7 +41,7 @@ while (True):
         DISCOUNT = False;
 
     # mode selection
-    print("\nMain\n0. Exit\n1. Purchase mode (Will lose all the ordered items after re-entry)\n2. Refund mode\n3. Check out\n4. Show data analysis");
+    print("\nMain\n0. Exit\n1. Purchase mode (Will lose all the ordered items after re-entry)\n2. Refund mode (Can only enter once)\n3. Check out\n4. Show data analysis");
     userInput = int(input("Enter the sub menu (code) you want to enter: "));
     print(); # changing line (beautifing)
 
@@ -54,6 +55,7 @@ while (True):
         subtotal = 0;
         tax = 0;
         originalSubtotal = 0;
+        refundToken = True;
 
         # fetch customer info
         name = input("Enter your name: ");
@@ -204,11 +206,11 @@ while (True):
         # refunding
         print("You ordered:", cart);
         i = 0;
-        userInput = "true";
-        while (userInput == "true"):
+        while (True):
             i += 1;
-            if (i > (cart.count('|') - 1) or (cart.count('|') <= 1)):
-                print("There is nothing in the queue.");
+            if (i > (cart.count('|') - 1) or (cart.count('|') <= 1) or refundToken == False):
+                print("You can't request for refund at this moment.\nPossible reasons:\n1. You already entered this menu once.\n2. There's nothing in your order.");
+                refundToken = False;
                 break;
 
             refund = int(input("Enter the item you want to return. Enter ONE item each prompt: "));
@@ -238,10 +240,15 @@ while (True):
             originalSubtotal -= float(PRICE[index + 1:PRICE.index('|', index + 1)]);
 
             userInput = input("Do you want to return anything else? Enter 'true' or 'false': ");
-            if (userInput != "true" and userInput != "false"):
-                print("Invalid input.");
+            if (userInput == "true"):
                 continue;
-            # if (userInput == "true"): continue; elif (userInput == "false"): break;
+            elif (userInput == "false"):
+                refundToken = False;
+                break;
+            else: # (userInput != "true" and userInput != "false")
+                print("Invalid input.");
+                refundToken = False;
+                continue;
 
     elif (userInput == 3): # mode check out
         if (cart.count('|') > 1):
