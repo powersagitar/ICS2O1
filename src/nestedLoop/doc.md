@@ -6,7 +6,7 @@ Table of Contents
 
 
 ## Pending
-* input mistake check
+* all done
 ## Thinking
 * use strings as arrays
 * the indicator is the second dot
