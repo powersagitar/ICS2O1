@@ -46,6 +46,7 @@ while (True):
     print(); # changing line (beautifing)
 
     if (userInput == 0): # exit
+        print("Thanks for using. Have a nice day!")
         break;
 
     elif (userInput == 1): # mode purchase
