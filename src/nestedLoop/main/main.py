@@ -27,7 +27,7 @@ else: # (dateM == (4 or 6 or 9 or 11)) or (dateM <= 0 or dateM > 12)
 # variable initialization
 menu = "|beef burger|cheese burger|double burger|chicken burger|sausage burger|fruitopia strawberry|fruitopia orange|coke|diet coke|fries|ice cream|";
 tag = "|meat-burger|burger|meat-burger|meat-burger|meat-burger|beverage|beverage|beverage|beverage|others|others|";
-PRICE = "|15|14|25|13|20|5|5|5|5|15|5|"
+PRICE = "|15|14|25|13|15|5|5|5|5|15|5|";
 cart = '|';
 refundToken = False;
 customerCount = 0;
