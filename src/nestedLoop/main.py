@@ -32,12 +32,10 @@ revenue = 0;
 donationReceived = 0;
 # check special offer validation
 if (dateM == dateD):
-    # apply special offer
     DISCOUNT = True;
 else:
     DISCOUNT = False;
 
-# fetch user input
 while (True):
     # mode selection
     print("\nMain\n0. Exit\n1. Purchase mode (Will lose all the ordered items after re-entry)\n2. Refund mode (Can only enter once)\n3. Check out\n4. Show data analysis");
@@ -95,7 +93,7 @@ while (True):
                     actualPrice += str(float(PRICE[index + 1:PRICE.index('|', index + 1)])) + '|';
                 start = end;
 
-        else:
+        else: # input invalid
             print("Invalid input.");
             continue;
 
@@ -161,10 +159,13 @@ while (True):
             
         # order confirmation
         while (True):
+            # fetching input
             userInput = input("Enter the code of your preferred items, put '|' after each (including last one). If you dont want to order anything, enter 'void': ");
+            # appending input
             if (userInput != "void"):
                 cart += userInput;
             print("\nYour order:", cart);
+            # loop condition setting
             userInput = input("Are those all the stuff you want to buy? Enter 'true' or 'false': ");
             if (userInput == "false"):
                 continue;
@@ -184,6 +185,7 @@ while (True):
             parts = menu.split('|', int(cart[start + 1:cart.index('|', start + 1)]));
             index = len(menu) - len(parts[-1]) - len('|');
 
+            # fetching size info
             print(menu[index + 1:menu.index('|', index + 1)], end = "");
             argu = input(" size: \"large\" for large, \"medium\" for medium, \"small\" for small\n");
             if (argu == "large"):
@@ -202,18 +204,18 @@ while (True):
             start = end;
     
     elif (userInput == 2): # mode refund
-        # refunding
-        print("You ordered:", cart);
-        i = 0;
+        print("You ordered:", cart); # printing the cart
+        i = 0; # defining iteration counter
         while (True):
             i += 1;
+            # refund eligibility check
             if (i > (cart.count('|') - 1) or (cart.count('|') <= 1) or refundToken == False):
                 print("You can't request for refund at this moment.\nPossible reasons:\n1. You already entered this menu once.\n2. There's nothing in your order.");
                 refundToken = False;
                 break;
 
+            # fetching refund info
             refund = int(input("Enter the item you want to return. Enter ONE item each prompt: "));
-
             userInput = input("Enter the size of the item ('large', 'medium', 'small'): ");
             if (userInput == "large"):
                 subtotal -= 2;
@@ -228,16 +230,20 @@ while (True):
                 print("Invalid input.");
                 break;
             
+            # modifying actual subtotal and original subtotal (generating refund)
+            # actual subtotal
             # find the nth occurrence of the divider
             parts = actualPrice.split('|', refund);
             index = len(actualPrice) - len(parts[-1]) - len('|');
             subtotal -= float(actualPrice[index + 1:actualPrice.index('|', index + 1)]);
 
+            # original subtotal
             # find the nth occurrence of the divider
             parts = PRICE.split('|', refund);
             index = len(PRICE) - len(parts[-1]) - len('|');
             originalSubtotal -= float(PRICE[index + 1:PRICE.index('|', index + 1)]);
 
+            # loop condition check
             userInput = input("Do you want to return anything else? Enter 'true' or 'false': ");
             if (userInput == "true"):
                 continue;
@@ -250,6 +256,7 @@ while (True):
                 continue;
 
     elif (userInput == 3): # mode check out
+        # check out eligibility check
         if (cart.count('|') > 1):
             # price calculation
             # subtotal calculation
@@ -263,7 +270,7 @@ while (True):
                 subtotal += float(actualPrice[index + 1:actualPrice.index('|', index + 1)]);
                 start = end;
             
-            # original price calculation
+            # original price calculation (if different from actual subtotal)
             if DISCOUNT:
                 start = cart.index('|');
                 for i in range(cart.count('|') - 1):
@@ -301,21 +308,23 @@ while (True):
             revenue += subtotal + tax;
             donationReceived += donation;
 
-        else:
+        else: # ineligible 
             print("Cart is empty.");
             continue;
 
     elif (userInput == 4): # mode data analysis
-        print("\nData Analysis (this session)");
+        print("\nData Analysis (this session)"); # printing title
+        
+        # data analysis elibility check
         if (customerCount == 0):
             print("Nobody has come since now.");
-        else:
+        else: # eligible
             print("Customer served:", customerCount);
             print("Revenue: $" + str(round(revenue, 2)));
             print("Average consumption: $" + str(round(revenue / customerCount, 2)));
             print("Donation received: $" + str(donationReceived));
             print("Average donation: $" + str(round(donationReceived / customerCount, 2)));
 
-    else:
+    else: # invalid mode selection
         print("Invalid input.");
         continue;
