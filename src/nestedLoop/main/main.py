@@ -5,6 +5,9 @@
 # Description: An assignment about menus.
 ##############################################################
 
+# printing program name
+print("Program: Menu - Nested Loop");
+
 # date check
 dateM = int(input("Enter today's date (MM): "));
 dateD = int(input("Enter today's date (DD): "));
