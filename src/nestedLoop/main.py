@@ -305,7 +305,7 @@ while (True):
             print("Cart is empty.");
             continue;
 
-    elif (userInput == 4):
+    elif (userInput == 4): # mode data analysis
         print("\nData Analysis (this session)");
         if (customerCount == 0):
             print("Nobody has come since now.");
