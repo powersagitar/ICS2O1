@@ -4,11 +4,11 @@ import math
 
 # defining functions
 # draw basic shapes
-def drawSimple(polygon, length1, length2, penColor, fillColor, position):
+def drawSimple(polygon, length1, length2, pencolor, fillColor, position):
     # initializing
     turtle.setpos(position);
     angle = 360 / int(polygon);
-    turtle.pencolor(penColor);
+    turtle.pencolor(pencolor);
     turtle.fillcolor(fillColor);
 
     # drawing
