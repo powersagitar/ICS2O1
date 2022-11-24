@@ -106,7 +106,7 @@ turtle.width(2.5);
 draw(150, 0, "grey", (-250, 50));
 
 # drawing doors
-drawSimple(4, 100, 400, "white", "white", (100, 100)); # door
-drawCircle("grey", 7, (170, 0)); # handle
+drawSimple(4, 100, 250, "white", "white", (100, -50)); # door
+drawCircle("grey", 7, (170, -150)); # handle
 
 turtle.exitonclick();
