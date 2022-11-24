@@ -6,3 +6,5 @@ from pathlib import Path
 turtle.setup(1200, 1200);
 turtle.bgpic(Path("./include/bg.png"));
 turtle.update();
+
+turtle.exitonclick();
