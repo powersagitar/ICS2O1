@@ -22,19 +22,6 @@ def drawSimple(polygon, length1, length2, pencolor, fillColor, position):
     turtle.end_fill();
     turtle.pu();
 
-# draw isosceles segments
-def drawIsosceles(length, angle, rotation, pencolor, position):
-    # initializing
-    turtle.setpos(position);
-    turtle.pencolor(pencolor);
-    
-    # drawing
-    turtle.pd();
-    for i in range(rotation):
-        turtle.forward(length);
-        turtle.right(angle);
-    turtle.pu();
-
 # regular (non-preset) drawing
 def draw(length, heading, pencolor, position):
     turtle.setpos(position); # initializing
