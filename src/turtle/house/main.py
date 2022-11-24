@@ -61,7 +61,7 @@ turtle.speed("fastest"); # code 0 <int>
 
 drawSimple(4, 1000, 400, "blue", "blue", (-500, 500)); # drawing a sky
 drawCircle("yellow", 100, (-450, 350)); # drawing a sun
-drawSimple(4, 1000, 600, "green", "green", (-500, 100)); # drawing the gound
+drawSimple(4, 1000, 600, "green", "green", (-500, 100)); # drawing the ground
 drawSimple(4, 600, 500, "grey", "grey", (-350, 200)); # drawing bottom rectangle
 
 # drawing the roof
