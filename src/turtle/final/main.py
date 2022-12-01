@@ -17,6 +17,8 @@ black = "black";
 white = "white";
 grey = "grey";
 
+snow = []; # storing snow positions
+
 # function definition
 # utilities
 # initializing
@@ -120,6 +122,16 @@ def drawPx(position, color, pensize):
     turtle.pu();
     turtle.pensize(prevPensize);
 
+# check if a lists contains a number pair
+def numberPairCheck(pair):
+    indicator = False;
+    n = len(pair)
+    for i in range(n):
+        for j in range(i + 1, n):
+            if pair[i] == pair[j]:
+                indicator = True;
+    return indicator;
+
 # basic elements
 # snow
 def snow(x, y):
@@ -128,6 +140,7 @@ def snow(x, y):
     drawPx((x, y - 20), aqua, 1); # lower
     drawPx((x - 20, y), aqua, 1); # left
     drawPx((x + 20, y), aqua, 1); # right
+    snow.extend((x, y), (x, y + 20), (x, y - 20), (x - 20, y), (x + 20, y)); # making sure no overlap will occur
 
 # candy
 def candy():
@@ -169,7 +182,11 @@ def main():
     
     # snow
     for i in range(10):
-        snow((randint(-440, 380) // 20) * 20, (randint(-440, 360) // 20) * 20);
+        x = randint(-440, 380) // 20 * 20; y = randint(-440, 360) // 20 * 20;
+        if numberPairCheck([x, y]) == False:
+            snow(x, y);
+        else:
+            i -= 1;
 
     candy(); # candy
 
