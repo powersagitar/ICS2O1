@@ -186,7 +186,7 @@ def main():
     i = 0
     while i < 10:
         x = randint(-440, 380) // 20 * 20; y = randint(-400, 360) // 20 * 20;
-        if [x, y] not in reservedPx:
+        if not [x, y] in reservedPx:
             snow(x, y);
             i += 1;
 
