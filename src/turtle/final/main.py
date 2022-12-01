@@ -17,7 +17,7 @@ black = "black";
 white = "white";
 grey = "grey";
 
-snow = []; # storing snow positions
+reservedPx = []; # storing reserved positions
 
 # function definition
 # utilities
@@ -122,15 +122,11 @@ def drawPx(position, color, pensize):
     turtle.pu();
     turtle.pensize(prevPensize);
 
-# check if a lists contains a number pair
-def numberPairCheck(pair):
-    indicator = False;
-    n = len(pair)
-    for i in range(n):
-        for j in range(i + 1, n):
-            if pair[i] == pair[j]:
-                indicator = True;
-    return indicator;
+# extending reserved pixels
+def extendReservedPx(xInit, yInit, xStep, yStep, limit):
+    for i in range(limit):
+        reservedPx.append([xInit, yInit]);
+        xInit += xStep; yInit += yStep;
 
 # basic elements
 # snow
@@ -140,10 +136,10 @@ def snow(x, y):
     drawPx((x, y - 20), aqua, 1); # lower
     drawPx((x - 20, y), aqua, 1); # left
     drawPx((x + 20, y), aqua, 1); # right
-    snow.extend((x, y), (x, y + 20), (x, y - 20), (x - 20, y), (x + 20, y)); # making sure no overlap will occur
+    reservedPx.extend([(x, y), (x, y + 20), (x, y - 20), (x - 20, y), (x + 20, y)]); # making sure no overlap will occur
 
-# candy
-def candy():
+# candyCane
+def candyCane():
     # blocks on lefter left
     y = -400;
     for i in range(7):
@@ -177,18 +173,22 @@ def candy():
     drawSeg((-320, -200), (-300, -200), 3, black); # lower right
     drawSeg((-300, -140), (-300, -200), 3, black); # righter right
 
+    # extending reserved pixels
+    for i in range(-460, -280, 20):
+        extendReservedPx(i, -460, 0, 20, 18);
+
 def main():
     initialize(); # initializing
+
+    candyCane(); # candyCane
     
     # snow
-    for i in range(10):
-        x = randint(-440, 380) // 20 * 20; y = randint(-440, 360) // 20 * 20;
-        if numberPairCheck([x, y]) == False:
+    i = 0
+    while i < 10:
+        x = randint(-440, 380) // 20 * 20; y = randint(-400, 360) // 20 * 20;
+        if [x, y] not in reservedPx:
             snow(x, y);
-        else:
-            i -= 1;
-
-    candy(); # candy
+            i += 1;
 
     turtle.exitonclick();
 
