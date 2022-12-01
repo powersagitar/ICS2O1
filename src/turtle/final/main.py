@@ -169,7 +169,7 @@ def main():
     
     # snow
     for i in range(10):
-        snow((randint(-440, 380) * 20) // 20, (randint(-440, 360) * 20) // 20); # snow is not on grid
+        snow((randint(-440, 380) // 20) * 20, (randint(-440, 360) // 20) * 20);
 
     candy(); # candy
 
