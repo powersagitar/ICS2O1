@@ -13,6 +13,7 @@ aqua = "#b8fff7";
 yellow = "#fff700";
 pink = "#fba2f7";
 blue = "#4067fc";
+brown = "#a87300";
 black = "black";
 white = "white";
 grey = "grey";
@@ -129,14 +130,18 @@ def extendReservedPx(xInit, yInit, xStep, yStep, limit):
         xInit += xStep; yInit += yStep;
 
 # basic elements
-# snow
-def snow(x, y):
-    drawPx((x, y), aqua, 1); # center
-    drawPx((x, y + 20), aqua, 1); # upper
-    drawPx((x, y - 20), aqua, 1); # lower
-    drawPx((x - 20, y), aqua, 1); # left
-    drawPx((x + 20, y), aqua, 1); # right
-    reservedPx.extend([(x, y), (x, y + 20), (x, y - 20), (x - 20, y), (x + 20, y)]); # making sure no overlap will occur
+# cross
+def cross(x, y, color):
+    drawPx((x, y), color, 1); # center
+    drawPx((x, y + 20), color, 1); # upper
+    drawPx((x, y - 20), color, 1); # lower
+    drawPx((x - 20, y), color, 1); # left
+    drawPx((x + 20, y), color, 1); # right
+
+    # making sure no overlapping will occur
+    for x in range(x - 40, x + 41, 20):
+        for y in range(y - 40, y + 41, 20):
+            reservedPx.append([(x, y)]);
 
 # candyCane
 def candyCane():
@@ -177,21 +182,49 @@ def candyCane():
     for i in range(-460, -280, 20):
         extendReservedPx(i, -460, 0, 20, 18);
 
+# christmas tree
+def christmasTree():
+    # leaves
+    top = 20;
+    for i1 in range(0, 181, 20):
+        for i2 in range(top, -301, -20):
+            drawPx((i1, i2), darkGreen, 1);
+        top -= 60;
+    top = -40;
+    for i1 in range(-20, -181, -20):
+        for i2 in range(top, -301, -20):
+            drawPx((i1, i2), darkGreen, 1);
+        top -= 60;
+    
+    # trunk
+    for i in range(-320, -421, -20):
+        drawPx((0, i), brown, 1);
+
+    # extending reserved pixels
+    for i in range(-120, 121, 20):
+        extendReservedPx(i, 40, 0, -20, 25);
+    
+    cross(0, 40, yellow); # adding the star
+
+
 def main():
     initialize(); # initializing
 
     # elements
     candyCane(); # candyCane
+    christmasTree(); # christmas tree
+
+    
     
     # snow
     i = 0
     while i < 10:
         x = randint(-440, 380) // 20 * 20; y = randint(-400, 360) // 20 * 20;
         if not [x, y] in reservedPx:
-            snow(x, y);
+            cross(x, y, aqua);
             i += 1;
-
-    turtle.exitonclick();
+    
+    #turtle.exitonclick();
 
 if __name__ == '__main__':
     main();
