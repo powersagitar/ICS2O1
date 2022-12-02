@@ -180,6 +180,7 @@ def candyCane():
 def main():
     initialize(); # initializing
 
+    # elements
     candyCane(); # candyCane
     
     # snow
