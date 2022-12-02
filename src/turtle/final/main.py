@@ -139,9 +139,9 @@ def cross(x, y, color):
     drawPx((x + 20, y), color, 1); # right
 
     # making sure no overlapping will occur
-    for x in range(x - 40, x + 41, 20):
-        for y in range(y - 40, y + 41, 20):
-            reservedPx.append([(x, y)]);
+    for resX in range(x - 40, x + 41, 20):
+        for resY in range(y - 40, y + 41, 20):
+            reservedPx.append([(resX, resY)]);
 
 # candyCane
 def candyCane():
