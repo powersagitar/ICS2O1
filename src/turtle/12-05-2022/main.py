@@ -31,20 +31,20 @@ def main():
     # bouncing
     while True:
         # boucing eligibility check
-        if x > -450 and x < 450:
-            print("line 29")
+        if x > -5 and x < 5:
+            print("line 35")
             xReverse = False;
-        if y > -450 and y < 450:
-            print("line 32")
+        if y > -5 and y < 5:
+            print("line 38")
             yReverse = False;
 
         # reverse direction
-        if (x >= 500 or x <= -500) and xReverse == False:
-            print("line 36")
+        if (x >= 455 or x <= -455) and xReverse == False:
+            print("line 43")
             xStep = -xStep;
             xReverse = True;
-        if (y >= 500 or y <= -500) and yReverse == False:
-            print("line 40")
+        if (y >= 410 or y <= -410) and yReverse == False:
+            print("line 47")
             yStep = -yStep;
             yReverse = True;
         
