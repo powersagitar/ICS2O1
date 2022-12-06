@@ -25,34 +25,23 @@ def main():
     x = randint(200, 300); y = 240;
     turtle.pu();
     turtle.setpos(x, y);
-    xReverse = False; yReverse = False;
     xStep = 2; yStep = -3;
 
     # bouncing
     while True:
-        # bouncing eligibility check
-        if x > -10 and x < 10: # keep the wide range since the initial value of x is randomly generated
-            print("line 35")
-            xReverse = False;
-        if y > -10 and y < 10: # the initial y is fixed so turtle will always go through 0, but keep a wide range just in case
-            print("line 38")
-            yReverse = False;
-
         # reverse direction
-        if (x >= 455 or x <= -455) and xReverse == False:
-            print("line 43")
+        if (x >= 455 or x <= -455):
+            print("line 34")
             xStep = -xStep;
-            xReverse = True;
-        if (y >= 410 or y <= -410) and yReverse == False:
-            print("line 47")
+        if (y >= 410 or y <= -410):
+            print("line 37")
             yStep = -yStep;
-            yReverse = True;
         
         # update pen position
         x += xStep; y += yStep;
         turtle.setpos(x, y);
 
-        print("x:", x, "y:", y, "\nxStep:", xStep, "yStep:", yStep, "\nreverse status:", "x:", xReverse, "y:", yReverse); # log
+        print("x:", x, "y:", y, "\nxStep:", xStep, "yStep:", yStep); # log
 
 
 if __name__ == '__main__':
