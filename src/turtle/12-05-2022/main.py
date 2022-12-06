@@ -30,11 +30,11 @@ def main():
 
     # bouncing
     while True:
-        # boucing eligibility check
-        if x > -5 and x < 5:
+        # bouncing eligibility check
+        if x > -10 and x < 10: # keep the wide range since the initial value of x is randomly generated
             print("line 35")
             xReverse = False;
-        if y > -5 and y < 5:
+        if y > -10 and y < 10: # the initial y is fixed so turtle will always go through 0, but keep a wide range just in case
             print("line 38")
             yReverse = False;
 
