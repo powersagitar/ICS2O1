@@ -126,7 +126,8 @@ def drawPx(position, color, pensize):
 # extending reserved pixels
 def extendReservedPx(xInit, yInit, xStep, yStep, limit):
     for i in range(limit):
-        reservedPx.append([xInit, yInit]);
+        if not [xInit, yInit] in reservedPx:
+            reservedPx.append([xInit, yInit]);
         xInit += xStep; yInit += yStep;
 
 # basic elements
@@ -206,6 +207,27 @@ def christmasTree():
     
     cross(0, 40, yellow); # adding the star
 
+def gift(x, y, topColor, bottomColor):
+    extendReservedPx(x - 20, y - 40, 20, 0, 6); # extend reserved pixels
+
+    # cover
+    for i in range(2):
+        for i in range(x, x + 101, 20):
+            drawPx((i, y), topColor, 1);
+        y -= 20;
+
+    # body
+    for i in range(2):
+        for i in range(x + 20, x + 81, 20):
+            drawPx((i, y), bottomColor, 1);
+        y -= 20;
+
+    # belt
+    y = -340;
+    for i in range(2):
+        for i in range(x + 40, x + 61, 20):
+            drawPx((i, y), yellow, 1);
+        y -= 20;
 
 def main():
     initialize(); # initializing
@@ -213,6 +235,10 @@ def main():
     # elements
     candyCane(); # candyCane
     christmasTree(); # christmas tree
+    
+    # gifts under the christmas tree
+    gift(-120, -360, darkGreen, mediumRed);
+    gift(20, -360, mediumRed, darkGreen);
 
     
     
