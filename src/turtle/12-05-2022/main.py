@@ -42,6 +42,5 @@ def main():
 
         print("x:", x, "y:", y, "\nxStep:", xStep, "yStep:", yStep); # log
 
-
 if __name__ == '__main__':
     main();
