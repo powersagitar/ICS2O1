@@ -8,19 +8,15 @@
 from random import randint
 import turtle
 
-def initialize(color):
+def main():
+    # initialize
     turtle.title("Group 2");
     turtle.setup(1000, 1000);
-    turtle.clear();
-    turtle.color(color);
+    turtle.color("green");
     turtle.begin_fill();
     turtle.shape("circle");
     turtle.shapesize(8, 4, 1);
     turtle.end_fill();
-
-def main():
-    # initialize
-    initialize("green");
     x = randint(200, 300); y = 240;
     turtle.pu();
     turtle.setpos(x, y);
