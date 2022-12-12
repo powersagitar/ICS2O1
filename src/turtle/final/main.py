@@ -234,11 +234,16 @@ def main():
 
     # elements
     candyCane(); # candyCane
-    christmasTree(); # christmas tree
+    
+    # christmas tree
+    christmasTree();
     
     # gifts under the christmas tree
     gift(-120, -360, darkGreen, mediumRed);
     gift(20, -360, mediumRed, darkGreen);
+
+    # lighting
+    
 
     
     
@@ -250,7 +255,5 @@ def main():
             cross(x, y, aqua);
             i += 1;
     
-    #turtle.exitonclick();
-
 if __name__ == '__main__':
     main();
