@@ -12,6 +12,7 @@ def main():
     # initialize
     turtle.title("Group 2");
     turtle.setup(1000, 1000);
+    turtle.hideturtle();
     turtle.color("green");
     turtle.begin_fill();
     turtle.shape("circle");
@@ -20,6 +21,7 @@ def main():
     x = randint(200, 300); y = 240;
     turtle.pu();
     turtle.setpos(x, y);
+    turtle.showturtle();
     xStep = 2; yStep = -3;
 
     # bouncing
