@@ -1,3 +1,10 @@
+####################################################
+# Program: Christmas Greeting Card
+# Author: Mohan Dong
+# Date: 12/13/2022
+# Description: A greeting card for Christmas.
+####################################################
+
 import turtle
 import math
 from pathlib import Path
@@ -5,7 +12,7 @@ from random import randint
 
 # color definition
 darkGreen = "#3f9523";
-lightGreen = "##e7ffe0";
+lightGreen = "#e7ffe0";
 darkRed = "#bd0000";
 mediumRed = "#ff0000";
 lightRed = "#ffc4bd";
@@ -242,11 +249,6 @@ def main():
     gift(-120, -360, darkGreen, mediumRed);
     gift(20, -360, mediumRed, darkGreen);
 
-    # lighting
-    
-
-    
-    
     # snow
     i = 0
     while i < 10:
@@ -254,6 +256,31 @@ def main():
         if not [x, y] in reservedPx:
             cross(x, y, aqua);
             i += 1;
+
+    # christmas tree lighting
+    color = [yellow, pink, blue, mediumRed, brown, lightGreen, darkGreen, darkRed, lightRed, aqua, white, grey];
+
+    while True:
+        userInput = input("Do you want the lighting color be randomly generated? [y/n]");
+        if (userInput == 'y'):
+            while True:
+                drawPx((0, -60), color[randint(0, len(color) - 1)], 1);
+                drawPx((20, -100), color[randint(0, len(color) - 1)], 1);
+                drawPx((0, -160), color[randint(0, len(color) - 1)], 1);
+                drawPx((-40, -240), color[randint(0, len(color) - 1)], 1);
+                drawPx((60, -280), color[randint(0, len(color) - 1)], 1);
+        elif (userInput == 'n'):
+            print("available color list:", color, "\nenter the index: ");
+            drawPx((0, -60), color[int(input())], 1);
+            drawPx((20, -100), color[int(input())], 1);
+            drawPx((0, -160), color[int(input())], 1);
+            drawPx((-40, -240), color[int(input())], 1);
+            drawPx((60, -280), color[int(input())], 1);
+            print("[done]");
+    
+
+    drawPx((0, 0), black, 1);
+
     
 if __name__ == '__main__':
     main();
