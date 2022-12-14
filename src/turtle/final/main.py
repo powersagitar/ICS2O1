@@ -289,6 +289,8 @@ def main():
             drawPx((-40, -240), color[int(input())], 1);
             drawPx((60, -280), color[int(input())], 1);
             print("[done]");
+        else:
+            print("invalid input");
     
 if __name__ == '__main__':
     main();
