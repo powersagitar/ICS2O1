@@ -7,8 +7,11 @@
 
 import turtle
 import math
-from pathlib import Path
 from random import randint
+import time
+
+# instantiate turtle
+pen = turtle.Turtle();
 
 # color definition
 darkGreen = "#3f9523";
@@ -32,8 +35,14 @@ reservedPx = []; # storing reserved positions
 # initializing
 def initialize():
     turtle.setup(1000, 1000);
-    turtle.pu();
-    turtle.speed("fastest");
+    pen.pu();
+    pen.speed("fastest");
+
+    # starting text || title
+    for i in range(8, 75):
+        pen.write("HAPPY", False, "center", ("Rage", i, "italic"));
+        time.sleep(0.0625);
+        pen.clear();
 
     # background
     # var
@@ -66,69 +75,69 @@ def grid(color):
 # draw basic shapes
 def drawSimple(polygon, length1, length2, pensize, pencolor, fillColor, position):
     # initializing
-    turtle.setpos(position);
+    pen.setpos(position);
     angle = 360 / int(polygon);
-    turtle.pencolor(pencolor);
-    turtle.fillcolor(fillColor);
-    prevPensize = turtle.pensize();
-    turtle.pensize(pensize);
+    pen.pencolor(pencolor);
+    pen.fillcolor(fillColor);
+    prevPensize = pen.pensize();
+    pen.pensize(pensize);
 
     # drawing
-    turtle.pd();
-    turtle.begin_fill();
+    pen.pd();
+    pen.begin_fill();
     for i in range(math.ceil(polygon / 2)):
-        turtle.forward(length1);
-        turtle.right(angle);
-        turtle.forward(length2);
-        turtle.right(angle);
-    turtle.end_fill();
-    turtle.pu();
-    turtle.pensize(prevPensize);
+        pen.forward(length1);
+        pen.right(angle);
+        pen.forward(length2);
+        pen.right(angle);
+    pen.end_fill();
+    pen.pu();
+    pen.pensize(prevPensize);
 
 # regular (non-preset) drawing
 def draw(length, heading, pencolor, position):
-    turtle.setpos(position); # initializing
+    pen.setpos(position); # initializing
     
     # drawing
-    turtle.seth(heading);
-    turtle.pencolor(pencolor);
-    turtle.pd();
-    turtle.forward(length);
-    turtle.pu();
+    pen.seth(heading);
+    pen.pencolor(pencolor);
+    pen.pd();
+    pen.forward(length);
+    pen.pu();
 
 # draw segments which have specific starting and ending positions
 def drawSeg(starting, ending, pensize, pencolor):
     # initializing
-    turtle.pencolor(pencolor);
-    turtle.setpos(starting);
-    prevPensize = turtle.pensize();
-    turtle.pensize(pensize);
+    pen.pencolor(pencolor);
+    pen.setpos(starting);
+    prevPensize = pen.pensize();
+    pen.pensize(pensize);
 
     # drawing
-    turtle.pd();
-    turtle.setpos(ending);
-    turtle.pu();
+    pen.pd();
+    pen.setpos(ending);
+    pen.pu();
     
-    turtle.pensize(prevPensize);
+    pen.pensize(prevPensize);
 
 # draw a pixel 20 * 20
 def drawPx(position, color, pensize):
     # initializing
-    turtle.pencolor(color);
-    turtle.fillcolor(color);
-    turtle.setpos(position);
-    prevPensize = turtle.pensize();
-    turtle.pensize(pensize);
+    pen.pencolor(color);
+    pen.fillcolor(color);
+    pen.setpos(position);
+    prevPensize = pen.pensize();
+    pen.pensize(pensize);
 
     # drawing
-    turtle.pd();
-    turtle.begin_fill();
+    pen.pd();
+    pen.begin_fill();
     for i in range(4):
-        turtle.forward(20);
-        turtle.right(90);
-    turtle.end_fill();
-    turtle.pu();
-    turtle.pensize(prevPensize);
+        pen.forward(20);
+        pen.right(90);
+    pen.end_fill();
+    pen.pu();
+    pen.pensize(prevPensize);
 
 # extending reserved pixels
 def extendReservedPx(xInit, yInit, xStep, yStep, limit):
@@ -237,7 +246,8 @@ def gift(x, y, topColor, bottomColor):
         y -= 20;
 
 def main():
-    initialize(); # initializing
+    # initializing
+    initialize(); 
 
     # elements
     candyCane(); # candyCane
@@ -251,7 +261,7 @@ def main():
 
     # snow
     i = 0
-    while i < 10:
+    while i < 20:
         x = randint(-440, 380) // 20 * 20; y = randint(-400, 360) // 20 * 20;
         if not [x, y] in reservedPx:
             cross(x, y, aqua);
