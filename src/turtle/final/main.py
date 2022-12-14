@@ -270,7 +270,7 @@ def main():
     drawPx((0, 0), black, 1); # origin
 
     # christmas tree lighting
-    turtle.hideturtle();
+    pen.hideturtle();
     color = [yellow, pink, blue, mediumRed, brown, lightGreen, darkRed, lightRed, aqua, white, grey];
     while True:
         userInput = input("Do you want the lighting color be randomly generated? [y/n]");
