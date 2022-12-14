@@ -256,10 +256,12 @@ def main():
         if not [x, y] in reservedPx:
             cross(x, y, aqua);
             i += 1;
+    
+    drawPx((0, 0), black, 1); # origin
 
     # christmas tree lighting
-    color = [yellow, pink, blue, mediumRed, brown, lightGreen, darkGreen, darkRed, lightRed, aqua, white, grey];
-
+    turtle.hideturtle();
+    color = [yellow, pink, blue, mediumRed, brown, lightGreen, darkRed, lightRed, aqua, white, grey];
     while True:
         userInput = input("Do you want the lighting color be randomly generated? [y/n]");
         if (userInput == 'y'):
@@ -277,10 +279,6 @@ def main():
             drawPx((-40, -240), color[int(input())], 1);
             drawPx((60, -280), color[int(input())], 1);
             print("[done]");
-    
-
-    drawPx((0, 0), black, 1);
-
     
 if __name__ == '__main__':
     main();
