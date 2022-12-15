@@ -5,12 +5,13 @@
 # Description: A greeting card for Christmas.
 ####################################################
 
+# import essential libraries / modules
 import turtle
-import math
+from math import ceil
 from random import randint
-import time
+from time import sleep
 
-# instantiate turtle
+# pen instantiation
 pen = turtle.Turtle();
 
 # color definition
@@ -41,7 +42,7 @@ def initialize():
     # starting text || title
     for i in range(8, 75):
         pen.write("HAPPY", False, "center", ("Rage", i, "italic"));
-        time.sleep(0.0625);
+        sleep(0.0625);
         pen.clear();
 
     # background
@@ -85,7 +86,7 @@ def drawSimple(polygon, length1, length2, pensize, pencolor, fillColor, position
     # drawing
     pen.pd();
     pen.begin_fill();
-    for i in range(math.ceil(polygon / 2)):
+    for i in range(ceil(polygon / 2)):
         pen.forward(length1);
         pen.right(angle);
         pen.forward(length2);
@@ -246,35 +247,47 @@ def gift(x, y, topColor, bottomColor):
         y -= 20;
 
 def main():
+    print("[program starting]");
     # initializing
-    initialize(); 
+    initialize();
+    print("[initialized]");
 
     # elements
+    print("[building candy cane]");
     candyCane(); # candyCane
+    print("[done]");
     
     # christmas tree
+    print("[building christmas tree]");
     christmasTree();
+    print("[done]");
     
     # gifts under the christmas tree
+    print("[building gifts under christmas tree]");
     gift(-120, -360, darkGreen, mediumRed);
     gift(20, -360, mediumRed, darkGreen);
+    print("[done]");
 
     # snow
+    print("[building snowflakes]");
     i = 0
     while i < 20:
         x = randint(-440, 380) // 20 * 20; y = randint(-400, 360) // 20 * 20;
         if not [x, y] in reservedPx:
             cross(x, y, aqua);
             i += 1;
+    print("[done]");
     
     drawPx((0, 0), black, 1); # origin
 
     # christmas tree lighting
+    print("[building lighting for christmas tree]");
     pen.hideturtle();
     color = [yellow, pink, blue, mediumRed, brown, lightGreen, darkRed, lightRed, aqua, white, grey];
     while True:
         userInput = input("Do you want the lighting color be randomly generated? [y/n]");
         if (userInput == 'y'):
+            print("[done]");
             while True:
                 drawPx((0, -60), color[randint(0, len(color) - 1)], 1);
                 drawPx((20, -100), color[randint(0, len(color) - 1)], 1);
