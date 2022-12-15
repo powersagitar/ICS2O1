@@ -203,15 +203,15 @@ def candyCane():
 # christmas tree
 def christmasTree():
     # leaves
-    top = 20;
-    for i1 in range(0, 181, 20):
-        for i2 in range(top, -301, -20):
-            drawPx((i1, i2), darkGreen, 1);
+    top = 100;
+    for x in range(0, 181, 20):
+        for y in range(top, -301, -20):
+            drawPx((x, y), darkGreen, 1);
         top -= 60;
-    top = -40;
-    for i1 in range(-20, -181, -20):
-        for i2 in range(top, -301, -20):
-            drawPx((i1, i2), darkGreen, 1);
+    top = 60;
+    for x in range(-20, -181, -20):
+        for y in range(top, -301, -20):
+            drawPx((x, y), darkGreen, 1);
         top -= 60;
     
     # trunk
@@ -220,7 +220,7 @@ def christmasTree():
 
     # extending reserved pixels
     for i in range(-120, 121, 20):
-        extendReservedPx(i, 40, 0, -20, 25);
+        extendReservedPx(i, 120, 0, -20, 29);
     
     cross(0, 40, yellow); # adding the star
 
