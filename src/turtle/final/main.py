@@ -33,15 +33,89 @@ reservedPx = []; # storing reserved positions
 
 # function definition
 # utilities
+# draw basic shapes
+def drawSimple(polygon, length1, length2, pensize, pencolor, fillColor, position):
+    # initializing
+    pen.setpos(position);
+    angle = 360 / int(polygon);
+    pen.pencolor(pencolor);
+    pen.fillcolor(fillColor);
+    pen.pensize(pensize);
+
+    # drawing
+    pen.pd();
+    pen.begin_fill();
+    for i in range(ceil(polygon / 2)):
+        pen.forward(length1);
+        pen.right(angle);
+        pen.forward(length2);
+        pen.right(angle);
+    pen.end_fill();
+    pen.pu();
+
+# draw segments which have specific starting and ending positions
+def drawSeg(starting, ending, pensize, pencolor):
+    # initializing
+    pen.pencolor(pencolor);
+    pen.setpos(starting);
+    pen.pensize(pensize);
+
+    # drawing
+    pen.pd();
+    pen.setpos(ending);
+    pen.pu();
+
+# draw a pixel 20 * 20
+def drawPx(position, color, pensize):
+    # initializing
+    pen.pencolor(color);
+    pen.fillcolor(color);
+    pen.setpos(position);
+    pen.pensize(pensize);
+
+    # drawing
+    pen.pd();
+    pen.begin_fill();
+    for i in range(4):
+        pen.forward(20);
+        pen.right(90);
+    pen.end_fill();
+    pen.pu();
+
+# extending reserved pixels
+def extendReservedPx(xInit, yInit, xStep, yStep, limit):
+    for i in range(limit):
+        if not [xInit, yInit] in reservedPx:
+            reservedPx.append([xInit, yInit]);
+        xInit += xStep; yInit += yStep;
+
+# draw the grid
+def grid(color):
+# horizontal
+    vertical = -500; horizontal = 500;
+    for i in range(50):
+        drawSeg((-500, horizontal), (500, horizontal), 1, color);
+        horizontal -= 20;
+
+    # vertical
+    for i in range(50):
+        drawSeg((vertical, 500), (vertical, -500), 1, color);
+        vertical += 20;
+
 # initializing
 def initialize():
+    turtle.hideturtle();
     turtle.setup(1000, 1000);
     pen.pu();
     pen.speed("fastest");
 
     # starting text || title
-    for i in range(8, 75):
+    for i in range(8, 75, 3):
         pen.write("HAPPY", False, "center", ("Rage", i, "italic"));
+        sleep(0.0625);
+        pen.clear();
+    for i in range(75, 150, 3):
+        pen.write("HOLIDAYS", False, "center", ("Rage", i, "italic"));
         sleep(0.0625);
         pen.clear();
 
@@ -58,94 +132,6 @@ def initialize():
     drawSimple(4, 920, 920, 5, black, white, (-462.5, 462.5)); # white square
 
     grid(grey); # grid
-    
-
-# draw the grid
-def grid(color):
-# horizontal
-    vertical = -500; horizontal = 500;
-    for i in range(50):
-        drawSeg((-500, horizontal), (500, horizontal), 1, color);
-        horizontal -= 20;
-
-    # vertical
-    for i in range(50):
-        drawSeg((vertical, 500), (vertical, -500), 1, color);
-        vertical += 20;
-
-# draw basic shapes
-def drawSimple(polygon, length1, length2, pensize, pencolor, fillColor, position):
-    # initializing
-    pen.setpos(position);
-    angle = 360 / int(polygon);
-    pen.pencolor(pencolor);
-    pen.fillcolor(fillColor);
-    prevPensize = pen.pensize();
-    pen.pensize(pensize);
-
-    # drawing
-    pen.pd();
-    pen.begin_fill();
-    for i in range(ceil(polygon / 2)):
-        pen.forward(length1);
-        pen.right(angle);
-        pen.forward(length2);
-        pen.right(angle);
-    pen.end_fill();
-    pen.pu();
-    pen.pensize(prevPensize);
-
-# regular (non-preset) drawing
-def draw(length, heading, pencolor, position):
-    pen.setpos(position); # initializing
-    
-    # drawing
-    pen.seth(heading);
-    pen.pencolor(pencolor);
-    pen.pd();
-    pen.forward(length);
-    pen.pu();
-
-# draw segments which have specific starting and ending positions
-def drawSeg(starting, ending, pensize, pencolor):
-    # initializing
-    pen.pencolor(pencolor);
-    pen.setpos(starting);
-    prevPensize = pen.pensize();
-    pen.pensize(pensize);
-
-    # drawing
-    pen.pd();
-    pen.setpos(ending);
-    pen.pu();
-    
-    pen.pensize(prevPensize);
-
-# draw a pixel 20 * 20
-def drawPx(position, color, pensize):
-    # initializing
-    pen.pencolor(color);
-    pen.fillcolor(color);
-    pen.setpos(position);
-    prevPensize = pen.pensize();
-    pen.pensize(pensize);
-
-    # drawing
-    pen.pd();
-    pen.begin_fill();
-    for i in range(4):
-        pen.forward(20);
-        pen.right(90);
-    pen.end_fill();
-    pen.pu();
-    pen.pensize(prevPensize);
-
-# extending reserved pixels
-def extendReservedPx(xInit, yInit, xStep, yStep, limit):
-    for i in range(limit):
-        if not [xInit, yInit] in reservedPx:
-            reservedPx.append([xInit, yInit]);
-        xInit += xStep; yInit += yStep;
 
 # basic elements
 # cross
@@ -203,7 +189,7 @@ def candyCane():
 # christmas tree
 def christmasTree():
     # leaves
-    top = 100;
+    top = 120;
     for x in range(0, 181, 20):
         for y in range(top, -301, -20):
             drawPx((x, y), darkGreen, 1);
@@ -219,10 +205,10 @@ def christmasTree():
         drawPx((0, i), brown, 1);
 
     # extending reserved pixels
-    for i in range(-120, 121, 20):
-        extendReservedPx(i, 120, 0, -20, 29);
+    for i in range(-160, 161, 20):
+        extendReservedPx(i, 140, 0, -20, 30);
     
-    cross(0, 40, yellow); # adding the star
+    cross(0, 120, yellow); # adding the star
 
 def gift(x, y, topColor, bottomColor):
     extendReservedPx(x - 20, y - 40, 20, 0, 6); # extend reserved pixels
@@ -278,8 +264,6 @@ def main():
             i += 1;
     print("[done]");
     
-    drawPx((0, 0), black, 1); # origin
-
     # christmas tree lighting
     print("[building lighting for christmas tree]");
     pen.hideturtle();
@@ -289,14 +273,16 @@ def main():
         if (userInput == 'y'):
             print("[done]");
             while True:
-                drawPx((0, -60), color[randint(0, len(color) - 1)], 1);
+                drawPx((0, 0), color[randint(0, len(color) - 1)], 1);
+                drawPx((-20, -60), color[randint(0, len(color) - 1)], 1);
                 drawPx((20, -100), color[randint(0, len(color) - 1)], 1);
                 drawPx((0, -160), color[randint(0, len(color) - 1)], 1);
                 drawPx((-40, -240), color[randint(0, len(color) - 1)], 1);
                 drawPx((60, -280), color[randint(0, len(color) - 1)], 1);
         elif (userInput == 'n'):
             print("available color list:", color, "\nenter the index: ");
-            drawPx((0, -60), color[int(input())], 1);
+            drawPx((0, 0), color[int(input())], 1);
+            drawPx((-20, -60), color[int(input())], 1);
             drawPx((20, -100), color[int(input())], 1);
             drawPx((0, -160), color[int(input())], 1);
             drawPx((-40, -240), color[int(input())], 1);
