@@ -114,7 +114,7 @@ def initialize():
         pen.write("HAPPY", False, "center", ("Rage", i, "italic"));
         sleep(0.0625);
         pen.clear();
-    for i in range(75, 150, 3):
+    for i in range(75, 120, 2):
         pen.write("HOLIDAYS", False, "center", ("Rage", i, "italic"));
         sleep(0.0625);
         pen.clear();
