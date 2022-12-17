@@ -115,13 +115,13 @@ def initialize():
     for i in range(8, 75, 3):
         pen.write("HAPPY", False, "center", ("Rage", i, "italic")); # print text
         sleep(0.0625); # delay for vision persistence
-        pen.clear(); # clear screen for next output
+        pen.undo(); # clear screen for next output
 
     # holidays
     for i in range(75, 120, 2):
         pen.write("HOLIDAYS", False, "center", ("Rage", i, "italic")); # print text
         sleep(0.0625); # delay for vision persistence
-        pen.clear(); # clear screen for next output
+        pen.undo(); # clear screen for next output
 
     # background
     # var definition
