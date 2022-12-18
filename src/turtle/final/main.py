@@ -291,7 +291,7 @@ def main():
         
         # manual snow
         elif (userInput == 'n'):
-            print("available color list:", color, "\nenter the index: ");
+            print("available color list:", color, "\nenter the 0-based index: ");
             drawPx((0, 0), color[int(input())], 1);
             drawPx((-20, -60), color[int(input())], 1);
             drawPx((20, -100), color[int(input())], 1);
