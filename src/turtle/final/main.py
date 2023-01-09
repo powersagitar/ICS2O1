@@ -7,20 +7,28 @@
 
 import turtle
 
+#todo adjust image size
+
 def main():
+    # initialization
+    # turtle
+    turtle.setup(1000, 1000) # canvas setup
+    turtle.bgpic("./assets/images/background.gif") # background img
+    turtle.register_shape("./assets/images/catcher.gif") # catcher img
+    turtle.register_shape("./assets/images/falling.gif") # falling obj img
+
     # instantiation
     catcher = turtle.Turtle()
-    falling = turtle.Turtle()
+    for i in range(5):
+        locals()[f"falling{i}"] = turtle.Turtle()
 
-    # initialization
-    turtle.setup(1000, 1000)
-    turtle.bgpic("./assets/images/background.gif")
-    turtle.register_shape("./assets/images/catcher.gif")
-    turtle.register_shape("./assets/images/falling.gif")
+    # initialize instances
     catcher.shape("./assets/images/catcher.gif")
     catcher.setpos(0, 0)
-    falling.shape("./assets/images/falling.gif")
-    falling.setpos(0, 0)
+    for i in range(5):
+        print(i)
+        locals()[f"falling{i}"].shape("./assets/images/falling.gif")
+        locals()[f"falling{i}"].setpos(0, 0)
 
 
 if __name__ == '__main__':
