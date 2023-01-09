@@ -6,30 +6,35 @@
 ############################################
 
 import turtle
+from random import randint
 
-#todo adjust image size
-
-def main():
-    # initialization
+def initialize():
     # turtle
     turtle.setup(1000, 1000) # canvas setup
     turtle.bgpic("./assets/images/background.gif") # background img
     turtle.register_shape("./assets/images/catcher.gif") # catcher img
     turtle.register_shape("./assets/images/falling.gif") # falling obj img
 
-    # instantiation
-    catcher = turtle.Turtle()
-    for i in range(5):
-        locals()[f"falling{i}"] = turtle.Turtle()
-
-    # initialize instances
+    # instantiation and initialization
+    # catcher
+    globals()["catcher"] = turtle.Turtle()
+    catcher.pu()
+    catcher.speed("fastest")
     catcher.shape("./assets/images/catcher.gif")
-    catcher.setpos(0, 0)
-    for i in range(5):
-        print(i)
-        locals()[f"falling{i}"].shape("./assets/images/falling.gif")
-        locals()[f"falling{i}"].setpos(0, 0)
+    catcher.setpos(randint(-387, 387), -387)
 
+    # falling obj || snowflakes
+    for i in range(5):
+        globals()[f"falling{i}"] = turtle.Turtle()
+        globals()[f"falling{i}"].pu()
+        globals()[f"falling{i}"].speed("fastest")
+        globals()[f"falling{i}"].shape("./assets/images/falling.gif")
+        globals()[f"falling{i}"].setpos(randint(-462, 462), randint(0, 465))
+
+def main():
+    print("please wait until the game is initialized")
+    initialize()
+    input("game initialized. press enter to continue")
 
 if __name__ == '__main__':
     main()
