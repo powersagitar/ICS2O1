@@ -7,8 +7,26 @@
 
 import turtle
 from random import randint
+from math import sqrt
 
-def initialize():
+class CatcherMovement:
+    @staticmethod
+    def left():
+        catcher.setpos(catcher.xcor() - 10, catcher.ycor())
+    
+    @staticmethod
+    def right():
+        catcher.setpos(catcher.xcor() + 10, catcher.ycor())
+
+    @staticmethod
+    def up():
+        catcher.setpos(catcher.xcor(), catcher.ycor() + 10)
+
+    @staticmethod
+    def down():
+        catcher.setpos(catcher.xcor(), catcher.ycor() - 10)
+
+def initialize(fallingObjectsCount):
     # turtle
     turtle.setup(1000, 1000) # canvas setup
     turtle.bgpic("./assets/images/background.gif") # background img
@@ -23,18 +41,38 @@ def initialize():
     catcher.shape("./assets/images/catcher.gif")
     catcher.setpos(randint(-387, 387), -387)
 
+    #! catcher movement binding, not sure if needed to be moved to line 73
+    turtle.onkeypress(CatcherMovement.left(), "Left")
+    turtle.onkeypress(CatcherMovement.right(), "Right")
+    turtle.onkeypress(CatcherMovement.up(), "Up")
+    turtle.onkeypress(CatcherMovement.down(), "Down")
+
     # falling obj || snowflakes
-    for i in range(5):
+    globals()["fallingObjNum"] = fallingObjectsCount
+    for i in range(fallingObjNum):
         globals()[f"falling{i}"] = turtle.Turtle()
         globals()[f"falling{i}"].pu()
         globals()[f"falling{i}"].speed("fastest")
         globals()[f"falling{i}"].shape("./assets/images/falling.gif")
         globals()[f"falling{i}"].setpos(randint(-462, 462), randint(0, 465))
-
+    
 def main():
     print("please wait until the game is initialized")
-    initialize()
+    initialize(5)
     input("game initialized. press enter to continue")
 
+    # main loop
+    while True:
+        for i in range(fallingObjNum):
+            # falling obj
+            globals()[f"falling{i}"].setpos(globals()[f"falling{i}"].xcor(), globals()[f"falling{i}"].ycor() - 3) # update falling obj position
+
+            # reset falling obj position if touches bottom || caught by catcher
+            if (globals()[f"falling{i}"].ycor() <= -465) or (sqrt((globals()[f"falling{i}"].xcor() - catcher.xcor()) ** 2 + (globals()[f"falling{i}"].ycor() - catcher.ycor()) ** 2) <= 112):
+                globals()[f"falling{i}"].setpos(randint(-462, 462), 465)
+
+            turtle.listen() # listen for keyboard events
+            
+            
 if __name__ == '__main__':
     main()
