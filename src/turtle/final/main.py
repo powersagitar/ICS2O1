@@ -12,19 +12,23 @@ from math import sqrt
 class CatcherMovement:
     @staticmethod
     def left():
-        catcher.setpos(catcher.xcor() - 10, catcher.ycor())
+        if not catcher.xcor() <= -387:
+            catcher.setpos(catcher.xcor() - 10, catcher.ycor())
     
     @staticmethod
     def right():
-        catcher.setpos(catcher.xcor() + 10, catcher.ycor())
+        if not catcher.xcor() >= 387:
+            catcher.setpos(catcher.xcor() + 10, catcher.ycor())
 
     @staticmethod
     def up():
-        catcher.setpos(catcher.xcor(), catcher.ycor() + 10)
+        if not catcher.ycor() >= 387:
+            catcher.setpos(catcher.xcor(), catcher.ycor() + 10)
 
     @staticmethod
     def down():
-        catcher.setpos(catcher.xcor(), catcher.ycor() - 10)
+        if not catcher.ycor() <= -387:
+            catcher.setpos(catcher.xcor(), catcher.ycor() - 10)
 
 def initialize(fallingObjectsCount):
     # turtle
@@ -42,10 +46,10 @@ def initialize(fallingObjectsCount):
     catcher.setpos(randint(-387, 387), -387)
 
     #! catcher movement binding, not sure if needed to be moved to line 73
-    turtle.onkeypress(CatcherMovement.left(), "Left")
-    turtle.onkeypress(CatcherMovement.right(), "Right")
-    turtle.onkeypress(CatcherMovement.up(), "Up")
-    turtle.onkeypress(CatcherMovement.down(), "Down")
+    turtle.onkeypress(CatcherMovement.left(), "a")
+    turtle.onkeypress(CatcherMovement.right(), "d")
+    # turtle.onkeypress(CatcherMovement.up(), "w")
+    # turtle.onkeypress(CatcherMovement.down(), "s")
 
     # falling obj || snowflakes
     globals()["fallingObjNum"] = fallingObjectsCount
