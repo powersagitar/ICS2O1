@@ -17,9 +17,7 @@ def for_all_methods(decorator):
         return cls
     return decorate
 
-#* when python executes decorators, the inner ones will be executed first, then the outer ones. the order matters
 @for_all_methods(inline)
-@for_all_methods(staticmethod)
 class CatcherMovement:
     def left():
         if not catcher.xcor() <= -387:
@@ -52,7 +50,7 @@ def initialize(fallingObjectsCount):
     catcher.shape("./assets/images/catcher.gif")
     catcher.setpos(randint(-387, 387), -387)
 
-    #! catcher movement binding, not sure if needed to be moved to line 73
+    #! catcher movement binding, not sure if needed to be moved to line 82
     turtle.onkeypress(CatcherMovement.left(), "a")
     turtle.onkeypress(CatcherMovement.right(), "d")
     # turtle.onkeypress(CatcherMovement.up(), "w")
@@ -76,13 +74,13 @@ def main():
     while True:
         for i in range(fallingObjNum):
             # falling obj
-            globals()[f"falling{i}"].setpos(globals()[f"falling{i}"].xcor(), globals()[f"falling{i}"].ycor() - 3) # update falling obj position
+            globals()[f"falling{i}"].setpos(globals()[f"falling{i}"].xcor(), globals()[f"falling{i}"].ycor() - 3) # update regular falling obj position
 
             # reset falling obj position if touches bottom border || caught by catcher [implementation: using distance2 = (x1 - x2)2 + (y1 - y2)2 to calculate the distance between the falling object and the catcher. the distance is 112, therefore distance2 becomes 12544]
             if (globals()[f"falling{i}"].ycor() <= -465) or (((globals()[f"falling{i}"].xcor() - catcher.xcor()) ** 2 + (globals()[f"falling{i}"].ycor() - catcher.ycor()) ** 2) <= 12544):
                 globals()[f"falling{i}"].setpos(randint(-462, 462), 465)
 
-            turtle.listen() # listen for keyboard events
+            turtle.listen() # listen for screen events
             
             
 if __name__ == '__main__':
