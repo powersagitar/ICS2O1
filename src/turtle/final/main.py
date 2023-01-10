@@ -7,24 +7,32 @@
 
 import turtle
 from random import randint
+from inliner import inline
 
+def for_all_methods(decorator):
+    def decorate(cls):
+        for attr in cls.__dict__: # there's propably a better way to do this
+            if callable(getattr(cls, attr)):
+                setattr(cls, attr, decorator(getattr(cls, attr)))
+        return cls
+    return decorate
+
+#* when python executes decorators, the inner ones will be executed first, then the outer ones. the order matters
+@for_all_methods(inline)
+@for_all_methods(staticmethod)
 class CatcherMovement:
-    @staticmethod
     def left():
         if not catcher.xcor() <= -387:
             catcher.setpos(catcher.xcor() - 10, catcher.ycor())
     
-    @staticmethod
     def right():
         if not catcher.xcor() >= 387:
             catcher.setpos(catcher.xcor() + 10, catcher.ycor())
 
-    @staticmethod
     def up():
         if not catcher.ycor() >= 387:
             catcher.setpos(catcher.xcor(), catcher.ycor() + 10)
 
-    @staticmethod
     def down():
         if not catcher.ycor() <= -387:
             catcher.setpos(catcher.xcor(), catcher.ycor() - 10)
