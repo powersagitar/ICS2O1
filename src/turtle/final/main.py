@@ -71,7 +71,7 @@ def main():
             # falling obj
             globals()[f"falling{i}"].setpos(globals()[f"falling{i}"].xcor(), globals()[f"falling{i}"].ycor() - 3) # update falling obj position
 
-            # reset falling obj position if touches bottom || caught by catcher
+            # reset falling obj position if touches bottom border || caught by catcher [implementation: using distance2 = (x1 - x2)2 + (y1 - y2)2 to calculate the distance between the falling object and the catcher]
             if (globals()[f"falling{i}"].ycor() <= -465) or (sqrt((globals()[f"falling{i}"].xcor() - catcher.xcor()) ** 2 + (globals()[f"falling{i}"].ycor() - catcher.ycor()) ** 2) <= 112):
                 globals()[f"falling{i}"].setpos(randint(-462, 462), 465)
 
