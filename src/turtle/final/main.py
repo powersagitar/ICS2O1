@@ -7,17 +7,7 @@
 
 import turtle
 from random import randint
-from inliner import inline
 
-def for_all_methods(decorator):
-    def decorate(cls):
-        for attr in cls.__dict__: # there's propably a better way to do this
-            if callable(getattr(cls, attr)):
-                setattr(cls, attr, decorator(getattr(cls, attr)))
-        return cls
-    return decorate
-
-@for_all_methods(inline)
 class CatcherMovement:
     def left():
         if not catcher.xcor() <= -387:
@@ -81,7 +71,6 @@ def main():
                 globals()[f"falling{i}"].setpos(randint(-462, 462), 465)
 
             turtle.listen() # listen for screen events
-            
             
 if __name__ == '__main__':
     main()
