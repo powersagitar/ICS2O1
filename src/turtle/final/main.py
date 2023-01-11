@@ -7,6 +7,7 @@
 
 import turtle
 from random import randint
+from os import _exit
 
 # struct for catcher movement control
 class CatcherMovement:
@@ -66,48 +67,63 @@ class StatControl:
         self.missedStat.undo() # use undo to erase written statements as it is faster
         self.missedStat.write("Missed: " + str(self.missedCount), move=False, align='left', font=('Arial', 17, 'normal'))
 
+        # check if the user failed the game
+        if self.missedCount > 10:
+            ProgramStatusControl.exit()
+
     def updateCaughtCount(self, diff):
         self.caughtCount += diff
         self.caughtStat.undo() # use undo to erase written statements as it is faster
         self.caughtStat.write("Caught: " + str(self.caughtCount), move=False, align='left', font=('Arial', 17, 'normal'))
 
-def initialize(fallingObjectsCount):
-    # turtle
-    turtle.setup(1000, 1000) # canvas setup
-    turtle.bgpic("./background.gif") # background img
-    turtle.register_shape("./catcher.gif") # catcher img
-    turtle.register_shape("./falling.gif") # falling object img
+# a struct for controlling the general program status
+class ProgramStatusControl:
+    def initialize(fallingObjectsCount):
+        # turtle
+        turtle.setup(1000, 1000) # canvas setup
+        turtle.bgpic("./background.gif") # background img
+        turtle.register_shape("./catcher.gif") # catcher img
+        turtle.register_shape("./falling.gif") # falling object img
 
-    # object instantiation and initialization
-    # catcher
-    globals()["catcher"] = turtle.Turtle()
-    catcher.pu()
-    catcher.speed("fastest")
-    catcher.shape("./catcher.gif")
-    catcher.setpos(randint(-387, 387), -387)
+        # object instantiation and initialization
+        # catcher
+        globals()["catcher"] = turtle.Turtle()
+        catcher.pu()
+        catcher.speed("fastest")
+        catcher.shape("./catcher.gif")
+        catcher.setpos(randint(-387, 387), -387)
 
-    # catcher movement binding ! do NOT put parentheses after the function, otherwise it will stop working
-    turtle.onkeypress(CatcherMovement.left, "a")
-    turtle.onkeypress(CatcherMovement.right, "d")
+        # catcher movement binding ! do NOT put parentheses after the function, otherwise it will stop working
+        turtle.onkeypress(CatcherMovement.left, "a")
+        turtle.onkeypress(CatcherMovement.right, "d")
 
-    # falling object || snowflakes
-    globals()["fallingSpeed"] = []
-    globals()["fallingObjNum"] = fallingObjectsCount
-    for i in range(fallingObjNum):
-        globals()[f"falling{i}"] = turtle.Turtle()
-        globals()[f"falling{i}"].pu()
-        globals()[f"falling{i}"].speed("fastest")
-        globals()[f"falling{i}"].shape("./falling.gif")
-        globals()[f"falling{i}"].setpos(randint(-462, 462), randint(0, 465))
-        fallingSpeed.append(randint(1, 10))
-    
-    # statistics
-    globals()["stat"] = StatControl(0, 0)
-    
+        # falling object || snowflakes
+        globals()["fallingSpeed"] = []
+        globals()["fallingObjNum"] = fallingObjectsCount
+        for i in range(fallingObjNum):
+            globals()[f"falling{i}"] = turtle.Turtle()
+            globals()[f"falling{i}"].pu()
+            globals()[f"falling{i}"].speed("fastest")
+            globals()[f"falling{i}"].shape("./falling.gif")
+            globals()[f"falling{i}"].setpos(randint(-462, 462), randint(0, 465))
+            fallingSpeed.append(randint(1, 10))
+        
+        # statistics
+        globals()["stat"] = StatControl(0, 0)
+
+    def exit():
+        turtle.write("game over", move=False, align='left', font=('Arial', 17, 'normal'))
+        userInput = input("you have reached the maximum missed count. do you want to continue? [y/n]")
+        if userInput == 'y':
+            turtle.clearscreen()
+            main()
+        else:
+            _exit(0)
+        
 def main():
     # initialization
     print("please wait until the game is initialized")
-    initialize(5)
+    ProgramStatusControl.initialize(5)
     input("game initialized. press enter to continue")
 
     # listen for screen events
