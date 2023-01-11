@@ -8,6 +8,7 @@
 import turtle
 from random import randint
 from os import _exit
+from tkinter import Button
 
 # struct for basic shapes
 class BasicShapes:
@@ -60,21 +61,14 @@ class StatControl:
         self.missedCount = initMissedCount
         self.caughtCount = initCaughtCount
 
-        # initalize the objects: missedStat && caughtStat
-        # make both object invisible
-        self.missedStat.hideturtle()
-        self.caughtStat.hideturtle()
-
-        # lift the pens of the two objects
-        self.missedStat.pu()
-        self.caughtStat.pu()
-
-        # set both object speed to fastest
-        self.missedStat.speed("fastest")
-        self.caughtStat.speed("fastest")
+        # initialize the objects: missedStat && caughtStat
+        for obj in [self.missedStat, self.caughtStat]:
+            obj.hideturtle()
+            obj.pu()
+            obj.speed("fastest")
 
         # move the two objects to designed position
-        #! this section has to be put before the initial stat printing since removal is done using turtle.undo()
+        #* this section has to be put before the initial stat printing since removal is done using turtle.undo()
         self.missedStat.setpos(-430, 400)
         self.caughtStat.setpos(-430, 365)
 
@@ -103,6 +97,7 @@ class ProgramStatusControl:
         # turtle
         turtle.clearscreen()
         turtle.setup(1000, 1000) # canvas setup
+        turtle.hideturtle()
         turtle.bgpic("./background.gif") # background img
         turtle.register_shape("./catcher.gif") # catcher img
         turtle.register_shape("./falling.gif") # falling object img
@@ -136,31 +131,19 @@ class ProgramStatusControl:
     @staticmethod
     def exit():
         # display exit message
-        turtle.write("Game is over since you have reached the maximum missed count (10).", move=False, align='left', font=('Arial', 30, 'normal'))
+        turtle.write("Game is over since you have reached the maximum missed count (10).", move=False, align='center', font=('Arial', 30, 'normal'))
 
-        # make on screen buttons
-        btnExit = turtle.Turtle()
-        btnRetry = turtle.Turtle()
+        #? solution: tkinter button - source: https://stackoverflow.com/questions/59902849/how-can-i-create-a-button-in-turtle
+        btnExit = Button(turtle.getcanvas().master, text="Exit", command=_exit)
+        btnRetry = Button(turtle.getcanvas().master, text="Retry", command=main)
 
-        # initialize button objects
-        # hide objects
-        btnExit.hideturtle()
-        btnRetry.hideturtle()
+        btnExit.pack()
+        btnRetry.pack()
 
-        # set speed to fastest
-        btnExit.speed("fastest")
-        btnRetry.speed("fastest")
+        btnExit.place(-450, 0) # tmp position for debugging
+        btnRetry.place(-450, -100) # tmp position for debugging
 
-        # draw the button
-        BasicShapes.roundedRectangle(btnExit, "grey", -250, -250, 100, 50, 50)
-        # BasicShapes.roundedRectangle(btnRetry, ..., ..., ..., ..., ...)
 
-        input("enter")
-
-        # button action binding
-        btnRetry.onclick(main())
-        btnExit.onclick(_exit(0))
-        
 def main():
     # initialization
     print("please wait until the game is initialized")
