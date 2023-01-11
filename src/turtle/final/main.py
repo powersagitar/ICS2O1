@@ -18,6 +18,37 @@ class CatcherMovement:
         if not catcher.xcor() >= 387: # border check
             catcher.setpos(catcher.xcor() + 10, catcher.ycor())
 
+# struct for falling object control
+class FallingObjectControl:
+    def reset(i):
+        globals()[f"falling{i}"].setpos(randint(-462, 462), 465) # reset falling object position to the top
+        fallingSpeed[i] = randint(1, 10)
+
+# class for statistics control
+class StatControl:
+    missedCount = None
+    caughtCount = None
+
+    missedStat = turtle.Turtle()
+    caughtStat = turtle.Turtle()
+
+    def __init__(self, initMissedCount, initCaughtCount):
+        self.missedCount = initMissedCount
+        self.caughtCount = initCaughtCount
+
+        self.missedStat.write(self.missedCount, move=False, align='left', font=('Arial', 8, 'normal'))
+        self.caughtStat.write(self.caughtCount, move=False, align='left', font=('Arial', 8, 'normal'))
+
+    def updateMissedCount(self, diff):
+        self.missedCount += diff
+        self.missedStat.undo()
+        self.missedStat.write(self.missedCount, move=False, align='left', font=('Arial', 8, 'normal'))
+
+    def updateCaughtCount(self, diff):
+        self.caughtCount += diff
+        self.caughtStat.undo()
+        self.caughtStat.write(self.caughtCount, move=False, align='left', font=('Arial', 8, 'normal'))
+
 def initialize(fallingObjectsCount):
     # turtle
     turtle.setup(1000, 1000) # canvas setup
@@ -38,6 +69,7 @@ def initialize(fallingObjectsCount):
     turtle.onkeypress(CatcherMovement.right, "d")
 
     # falling object || snowflakes
+    globals()["fallingSpeed"] = []
     globals()["fallingObjNum"] = fallingObjectsCount
     for i in range(fallingObjNum):
         globals()[f"falling{i}"] = turtle.Turtle()
@@ -45,6 +77,10 @@ def initialize(fallingObjectsCount):
         globals()[f"falling{i}"].speed("fastest")
         globals()[f"falling{i}"].shape("./falling.gif")
         globals()[f"falling{i}"].setpos(randint(-462, 462), randint(0, 465))
+        fallingSpeed.append(randint(1, 10))
+    
+    # statistics
+    globals()["stat"] = StatControl(0, 0)
     
 def main():
     # initialization
@@ -60,11 +96,17 @@ def main():
         # this for loop is used to make the control switch between all the objects
         for i in range(fallingObjNum):
             # falling objects
-            globals()[f"falling{i}"].setpos(globals()[f"falling{i}"].xcor(), globals()[f"falling{i}"].ycor() - 5) # regular falling
+            globals()[f"falling{i}"].setpos(globals()[f"falling{i}"].xcor(), globals()[f"falling{i}"].ycor() - fallingSpeed[i]) # regular falling
 
-            # reset falling object position if touches bottom border || caught by catcher [implementation: using distance2 = (x1 - x2)2 + (y1 - y2)2 to calculate the distance between the falling object and the catcher. the distance is 112, therefore distance2 becomes 12544]
-            if (globals()[f"falling{i}"].ycor() <= -465) or (((globals()[f"falling{i}"].xcor() - catcher.xcor()) ** 2 + (globals()[f"falling{i}"].ycor() - catcher.ycor()) ** 2) <= 12544):
-                globals()[f"falling{i}"].setpos(randint(-462, 462), 465)
+            # missed decision
+            if globals()[f"falling{i}"].ycor() <= -465:
+                FallingObjectControl.reset(i)
+                stat.updateMissedCount(1)
+
+            # caught decision
+            elif globals()[f"falling{i}"].ycor() > catcher.ycor() and globals()[f"falling{i}"].ycor() < catcher.ycor() + 112 and abs(globals()[f"falling{i}"].xcor() - catcher.xcor()) < 112:
+                FallingObjectControl.reset(i)
+                stat.updateCaughtCount(1)
             
 if __name__ == '__main__':
     main()
