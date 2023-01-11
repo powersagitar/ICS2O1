@@ -9,18 +9,38 @@ import turtle
 from random import randint
 from os import _exit
 
+# struct for basic shapes
+class BasicShapes:
+    @staticmethod
+    def roundedRectangle(obj, fillcolor, center_x, center_y, width, height, cornersize):
+        obj.up()
+        obj.goto(center_x-width / 2 + cornersize, center_y - height / 2)
+        obj.fillcolor(fillcolor)
+        obj.down()
+        obj.begin_fill()
+        for i in range(2):
+            obj.fd(width - 2 * cornersize)
+            obj.circle(cornersize, 90)
+            obj.fd(height - 2 * cornersize)
+            obj.circle(cornersize, 90)
+        obj.end_fill()
+        obj.up()
+
 # struct for catcher movement control
 class CatcherMovement:
+    @staticmethod
     def left():
         if not catcher.xcor() <= -387: # border check
             catcher.setpos(catcher.xcor() - 10, catcher.ycor())
     
+    @staticmethod
     def right():
         if not catcher.xcor() >= 387: # border check
             catcher.setpos(catcher.xcor() + 10, catcher.ycor())
 
 # struct for falling object control
 class FallingObjectControl:
+    @staticmethod
     def reset(i):
         globals()[f"falling{i}"].setpos(randint(-462, 462), 535) # reset falling object position to ABOVE the top
         fallingSpeed[i] = randint(1, 10)
@@ -78,8 +98,10 @@ class StatControl:
 
 # a struct for controlling the general program status
 class ProgramStatusControl:
+    @staticmethod
     def initialize(fallingObjectsCount):
         # turtle
+        turtle.clearscreen()
         turtle.setup(1000, 1000) # canvas setup
         turtle.bgpic("./background.gif") # background img
         turtle.register_shape("./catcher.gif") # catcher img
@@ -109,16 +131,35 @@ class ProgramStatusControl:
             fallingSpeed.append(randint(1, 10))
         
         # statistics
-        globals()["stat"] = StatControl(0, 0)
+        globals()["stat"] = StatControl(10, 0)
 
+    @staticmethod
     def exit():
-        turtle.write("game over", move=False, align='left', font=('Arial', 17, 'normal'))
-        userInput = input("you have reached the maximum missed count. do you want to continue? [y/n]")
-        if userInput == 'y':
-            turtle.clearscreen()
-            main()
-        else:
-            _exit(0)
+        # display exit message
+        turtle.write("Game is over since you have reached the maximum missed count (10).", move=False, align='left', font=('Arial', 30, 'normal'))
+
+        # make on screen buttons
+        btnExit = turtle.Turtle()
+        btnRetry = turtle.Turtle()
+
+        # initialize button objects
+        # hide objects
+        btnExit.hideturtle()
+        btnRetry.hideturtle()
+
+        # set speed to fastest
+        btnExit.speed("fastest")
+        btnRetry.speed("fastest")
+
+        # draw the button
+        BasicShapes.roundedRectangle(btnExit, "grey", -250, -250, 100, 50, 50)
+        # BasicShapes.roundedRectangle(btnRetry, ..., ..., ..., ..., ...)
+
+        input("enter")
+
+        # button action binding
+        btnRetry.onclick(main())
+        btnExit.onclick(_exit(0))
         
 def main():
     # initialization
