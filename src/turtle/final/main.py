@@ -21,7 +21,7 @@ class CatcherMovement:
 # struct for falling object control
 class FallingObjectControl:
     def reset(i):
-        globals()[f"falling{i}"].setpos(randint(-462, 462), 465) # reset falling object position to the top
+        globals()[f"falling{i}"].setpos(randint(-462, 462), 535) # reset falling object position to ABOVE the top
         fallingSpeed[i] = randint(1, 10)
 
 # class for statistics control
