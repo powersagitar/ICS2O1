@@ -40,27 +40,36 @@ class StatControl:
         self.caughtCount = initCaughtCount
 
         # initalize the objects: missedStat && caughtStat
+        # make both object invisible
+        self.missedStat.hideturtle()
+        self.caughtStat.hideturtle()
+
         # lift the pens of the two objects
         self.missedStat.pu()
         self.caughtStat.pu()
 
+        # set both object speed to fastest
+        self.missedStat.speed("fastest")
+        self.caughtStat.speed("fastest")
+
         # move the two objects to designed position
         #! this section has to be put before the initial stat printing since removal is done using turtle.undo()
-        ...
+        self.missedStat.setpos(-430, 400)
+        self.caughtStat.setpos(-430, 365)
 
         # print the initial statistics statement for turtle.undo() uses later on
-        self.missedStat.write("Missed: " + str(self.missedCount), move=False, align='left', font=('Arial', 8, 'normal'))
-        self.caughtStat.write("Caught: " + str(self.caughtCount), move=False, align='left', font=('Arial', 8, 'normal'))
+        self.missedStat.write("Missed: " + str(self.missedCount), move=False, align='left', font=('Arial', 17, 'normal'))
+        self.caughtStat.write("Caught: " + str(self.caughtCount), move=False, align='left', font=('Arial', 17, 'normal'))
 
     def updateMissedCount(self, diff):
         self.missedCount += diff
         self.missedStat.undo() # use undo to erase written statements as it is faster
-        self.missedStat.write("Missed: " + str(self.missedCount), move=False, align='left', font=('Arial', 8, 'normal'))
+        self.missedStat.write("Missed: " + str(self.missedCount), move=False, align='left', font=('Arial', 17, 'normal'))
 
     def updateCaughtCount(self, diff):
         self.caughtCount += diff
         self.caughtStat.undo() # use undo to erase written statements as it is faster
-        self.caughtStat.write("Caught: " + str(self.caughtCount), move=False, align='left', font=('Arial', 8, 'normal'))
+        self.caughtStat.write("Caught: " + str(self.caughtCount), move=False, align='left', font=('Arial', 17, 'normal'))
 
 def initialize(fallingObjectsCount):
     # turtle
@@ -117,7 +126,7 @@ def main():
                 stat.updateMissedCount(1)
 
             # caught decision
-            elif globals()[f"falling{i}"].ycor() > catcher.ycor() and globals()[f"falling{i}"].ycor() < catcher.ycor() + 112 and abs(globals()[f"falling{i}"].xcor() - catcher.xcor()) < 112:
+            elif globals()[f"falling{i}"].ycor() > catcher.ycor() + 92 and globals()[f"falling{i}"].ycor() < catcher.ycor() + 112 and abs(globals()[f"falling{i}"].xcor() - catcher.xcor()) < 112:
                 FallingObjectControl.reset(i)
                 stat.updateCaughtCount(1)
             
