@@ -81,10 +81,6 @@ class StatControl:
         self.missedStat.undo() # use undo to erase written statements as it is faster
         self.missedStat.write("Missed: " + str(self.missedCount), move=False, align='left', font=('Arial', 17, 'normal'))
 
-        # check if the user failed the game
-        if self.missedCount > 10:
-            ProgramStatusControl.exit()
-
     def updateCaughtCount(self, diff):
         self.caughtCount += diff
         self.caughtStat.undo() # use undo to erase written statements as it is faster
@@ -164,6 +160,10 @@ def main():
             if globals()[f"falling{i}"].ycor() <= -465:
                 FallingObjectControl.reset(i)
                 stat.updateMissedCount(1)
+                
+                # check if the user failed the game
+                if stat.missedCount > 10:
+                    ProgramStatusControl.exit()
 
             # caught decision
             elif globals()[f"falling{i}"].ycor() > catcher.ycor() + 92 and globals()[f"falling{i}"].ycor() < catcher.ycor() + 112 and abs(globals()[f"falling{i}"].xcor() - catcher.xcor()) < 112:
