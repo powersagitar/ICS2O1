@@ -26,28 +26,41 @@ class FallingObjectControl:
 
 # class for statistics control
 class StatControl:
+    # private attributes to store statistics
     missedCount = None
     caughtCount = None
 
+    # private attributes to control missed stat and caught stat separately
     missedStat = turtle.Turtle()
     caughtStat = turtle.Turtle()
 
     def __init__(self, initMissedCount, initCaughtCount):
+        # initialize the missed count && caught count
         self.missedCount = initMissedCount
         self.caughtCount = initCaughtCount
 
-        self.missedStat.write(self.missedCount, move=False, align='left', font=('Arial', 8, 'normal'))
-        self.caughtStat.write(self.caughtCount, move=False, align='left', font=('Arial', 8, 'normal'))
+        # initalize the objects: missedStat && caughtStat
+        # lift the pens of the two objects
+        self.missedStat.pu()
+        self.caughtStat.pu()
+
+        # move the two objects to designed position
+        #! this section has to be put before the initial stat printing since removal is done using turtle.undo()
+        ...
+
+        # print the initial statistics statement for turtle.undo() uses later on
+        self.missedStat.write("Missed: " + str(self.missedCount), move=False, align='left', font=('Arial', 8, 'normal'))
+        self.caughtStat.write("Caught: " + str(self.caughtCount), move=False, align='left', font=('Arial', 8, 'normal'))
 
     def updateMissedCount(self, diff):
         self.missedCount += diff
-        self.missedStat.undo()
-        self.missedStat.write(self.missedCount, move=False, align='left', font=('Arial', 8, 'normal'))
+        self.missedStat.undo() # use undo to erase written statements as it is faster
+        self.missedStat.write("Missed: " + str(self.missedCount), move=False, align='left', font=('Arial', 8, 'normal'))
 
     def updateCaughtCount(self, diff):
         self.caughtCount += diff
-        self.caughtStat.undo()
-        self.caughtStat.write(self.caughtCount, move=False, align='left', font=('Arial', 8, 'normal'))
+        self.caughtStat.undo() # use undo to erase written statements as it is faster
+        self.caughtStat.write("Caught: " + str(self.caughtCount), move=False, align='left', font=('Arial', 8, 'normal'))
 
 def initialize(fallingObjectsCount):
     # turtle
@@ -56,7 +69,7 @@ def initialize(fallingObjectsCount):
     turtle.register_shape("./catcher.gif") # catcher img
     turtle.register_shape("./falling.gif") # falling object img
 
-    # instantiation and initialization
+    # object instantiation and initialization
     # catcher
     globals()["catcher"] = turtle.Turtle()
     catcher.pu()
