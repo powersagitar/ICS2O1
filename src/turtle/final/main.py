@@ -8,7 +8,8 @@
 import turtle
 from random import randint
 from os import _exit
-from tkinter import Button
+from time import sleep
+import tkinter
 
 # struct for basic shapes
 class BasicShapes:
@@ -86,12 +87,32 @@ class StatControl:
         self.caughtStat.undo() # use undo to erase written statements as it is faster
         self.caughtStat.write("Caught: " + str(self.caughtCount), move=False, align='left', font=('Arial', 17, 'normal'))
 
+# a struct for guiding functions
+class Guides:
+    @staticmethod
+    def main():
+        exitPrompt.destroy()
+        turtle.clearscreen()
+        # python
+        for var in dir():
+            if var[0:2] != "__":
+                del globals()[var]
+        main()
+
+    @staticmethod
+    def exit(exitCode=0):
+        # python
+        for var in dir():
+            if var[0:2] != "__":
+                del globals()[var]
+        del var
+        _exit(exitCode)
+
 # a struct for controlling the general program status
 class ProgramStatusControl:
     @staticmethod
     def initialize(fallingObjectsCount):
         # turtle
-        turtle.clearscreen()
         turtle.setup(1000, 1000) # canvas setup
         turtle.hideturtle()
         turtle.bgpic("./background.gif") # background img
@@ -122,29 +143,26 @@ class ProgramStatusControl:
             fallingSpeed.append(randint(1, 10))
         
         # statistics
-        globals()["stat"] = StatControl(10, 0)
+        globals()["stat"] = StatControl(0, 0)
 
     @staticmethod
     def exit():
         # display exit message
-        turtle.write("Game is over since you have reached the maximum missed count (10).", move=False, align='center', font=('Arial', 30, 'normal'))
-
-        #? solution: tkinter button - source: https://stackoverflow.com/questions/59902849/how-can-i-create-a-button-in-turtle
-        btnExit = Button(turtle.getcanvas().master, text="Exit", command=_exit)
-        btnRetry = Button(turtle.getcanvas().master, text="Retry", command=main)
-
-        btnExit.pack()
-        btnRetry.pack()
-
-        btnExit.place(-450, 0) # tmp position for debugging
-        btnRetry.place(-450, -100) # tmp position for debugging
-
+        turtle.write("Game over\nyou have reached the maximum missed count (10).", move=False, align='center', font=('Arial', 30, 'normal'))
+        
+        if not "exitPrompt" in globals():
+            globals()["exitPrompt"] = tkinter.Tk()
+            exitPrompt.title("Exit Prompt - Game Failed")
+            exitPrompt.state("zoomed")
+            tkinter.Label(exitPrompt, text="Exit Prompt - Game Failed").pack()
+            tkinter.Button(exitPrompt, text="Retry", command=Guides.main).pack()
+            tkinter.Button(exitPrompt, text="Exit", command=Guides.exit).pack()
 
 def main():
     # initialization
-    print("please wait until the game is initialized")
+    # print("please wait until the game is initialized")
     ProgramStatusControl.initialize(5)
-    input("game initialized. press enter to continue")
+    # input("game initialized. press enter to continue")
 
     # listen for screen events
     turtle.listen() 
@@ -162,7 +180,7 @@ def main():
                 stat.updateMissedCount(1)
                 
                 # check if the user failed the game
-                if stat.missedCount > 10:
+                if stat.missedCount > 0:
                     ProgramStatusControl.exit()
 
             # caught decision
