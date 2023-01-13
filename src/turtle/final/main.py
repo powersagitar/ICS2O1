@@ -6,10 +6,9 @@
 ############################################
 
 import turtle
+import tkinter
 from random import randint
 from os import _exit
-from time import sleep
-import tkinter
 
 # struct for basic shapes
 class BasicShapes:
@@ -44,7 +43,7 @@ class CatcherMovement:
 class FallingObjectControl:
     @staticmethod
     def reset(i):
-        globals()[f"falling{i}"].setpos(randint(-462, 462), 535) # reset falling object position to ABOVE the top
+        globals()[f"falling{i}"].setpos(randint(-462, 462), randint(535, 635)) # reset falling object position to ABOVE the top, using ycor to control the delay before falling starts
         fallingSpeed[i] = randint(1, 10)
 
 # class for statistics control
@@ -87,27 +86,6 @@ class StatControl:
         self.caughtStat.undo() # use undo to erase written statements as it is faster
         self.caughtStat.write("Caught: " + str(self.caughtCount), move=False, align='left', font=('Arial', 17, 'normal'))
 
-# a struct for guiding functions
-class Guides:
-    @staticmethod
-    def main():
-        exitPrompt.destroy()
-        turtle.clearscreen()
-        # python
-        for var in dir():
-            if var[0:2] != "__":
-                del globals()[var]
-        main()
-
-    @staticmethod
-    def exit(exitCode=0):
-        # python
-        for var in dir():
-            if var[0:2] != "__":
-                del globals()[var]
-        del var
-        _exit(exitCode)
-
 # a struct for controlling the general program status
 class ProgramStatusControl:
     @staticmethod
@@ -115,6 +93,7 @@ class ProgramStatusControl:
         # turtle
         turtle.setup(1000, 1000) # canvas setup
         turtle.hideturtle()
+        turtle.pu()
         turtle.bgpic("./background.gif") # background img
         turtle.register_shape("./catcher.gif") # catcher img
         turtle.register_shape("./falling.gif") # falling object img
@@ -147,16 +126,39 @@ class ProgramStatusControl:
 
     @staticmethod
     def exit():
+        del globals()["exitPrompt"] # reset exit prompt availability
+        _exit(0) # exit program with 0
+
+    @staticmethod
+    def restart():
+        # reset screen
+        turtle.clearscreen()
+        exitPrompt.destroy()
+
+        # reset exit prompt availability
+        del globals()["exitPrompt"] 
+
+        # recall main function
+        main()
+
+    @staticmethod
+    def exitPrompt():
+        # hold screen
+        for i in range(5):
+            fallingSpeed[i] = 0
+
         # display exit message
-        turtle.write("Game over\nyou have reached the maximum missed count (10).", move=False, align='center', font=('Arial', 30, 'normal'))
+        turtle.setpos(0, 20)
+        turtle.write("Game Over", move=False, align='center', font=('Arial', 30, 'normal'))
+        turtle.setpos(turtle.xcor(), turtle.ycor() - 40)
+        turtle.write("You have exceeded the maximum missed count (5).", move=False, align='center', font=('Arial', 30, 'normal'))
         
-        if not "exitPrompt" in globals():
-            globals()["exitPrompt"] = tkinter.Tk()
-            exitPrompt.title("Exit Prompt - Game Failed")
-            exitPrompt.state("zoomed")
-            tkinter.Label(exitPrompt, text="Exit Prompt - Game Failed").pack()
-            tkinter.Button(exitPrompt, text="Retry", command=Guides.main).pack()
-            tkinter.Button(exitPrompt, text="Exit", command=Guides.exit).pack()
+        # exit prompt window
+        globals()["exitPrompt"] = tkinter.Tk()
+        exitPrompt.title("Exit Prompt - Game Failed")
+        tkinter.Label(exitPrompt, text="Exit Prompt - Game Failed").pack()
+        tkinter.Button(exitPrompt, text="Retry", command=ProgramStatusControl.restart).pack()
+        tkinter.Button(exitPrompt, text="Exit", command=ProgramStatusControl.exit).pack()
 
 def main():
     # initialization
@@ -174,19 +176,20 @@ def main():
             # falling objects
             globals()[f"falling{i}"].setpos(globals()[f"falling{i}"].xcor(), globals()[f"falling{i}"].ycor() - fallingSpeed[i]) # regular falling
 
-            # missed decision
-            if globals()[f"falling{i}"].ycor() <= -465:
-                FallingObjectControl.reset(i)
-                stat.updateMissedCount(1)
-                
-                # check if the user failed the game
-                if stat.missedCount > 0:
-                    ProgramStatusControl.exit()
+            if not "exitPrompt" in globals():
+                # missed decision
+                if globals()[f"falling{i}"].ycor() <= -465:
+                    FallingObjectControl.reset(i)
+                    stat.updateMissedCount(1)
+                    
+                    # check if the user failed the game
+                    if stat.missedCount > 5:
+                        ProgramStatusControl.exitPrompt()
 
-            # caught decision
-            elif globals()[f"falling{i}"].ycor() > catcher.ycor() + 92 and globals()[f"falling{i}"].ycor() < catcher.ycor() + 112 and abs(globals()[f"falling{i}"].xcor() - catcher.xcor()) < 112:
-                FallingObjectControl.reset(i)
-                stat.updateCaughtCount(1)
+                # caught decision
+                elif globals()[f"falling{i}"].ycor() > catcher.ycor() + 92 and globals()[f"falling{i}"].ycor() < catcher.ycor() + 112 and abs(globals()[f"falling{i}"].xcor() - catcher.xcor()) < 112:
+                    FallingObjectControl.reset(i)
+                    stat.updateCaughtCount(1)
             
 if __name__ == '__main__':
     main()
