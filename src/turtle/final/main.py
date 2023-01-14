@@ -10,186 +10,155 @@ import tkinter
 from random import randint
 from os import _exit
 
-# struct for basic shapes
-class BasicShapes:
-    @staticmethod
-    def roundedRectangle(obj, fillcolor, center_x, center_y, width, height, cornersize):
-        obj.up()
-        obj.goto(center_x-width / 2 + cornersize, center_y - height / 2)
-        obj.fillcolor(fillcolor)
-        obj.down()
-        obj.begin_fill()
-        for i in range(2):
-            obj.fd(width - 2 * cornersize)
-            obj.circle(cornersize, 90)
-            obj.fd(height - 2 * cornersize)
-            obj.circle(cornersize, 90)
-        obj.end_fill()
-        obj.up()
+class Catcher(turtle.Turtle):
+    def __init__(self):
+        super().__init__()
+        self.pu()
+        self.speed("fastest")
+        turtle.register_shape("./catcher.gif")
+        self.shape("./catcher.gif")
+        self.setpos(randint(-387, 387), -387)
 
-# struct for catcher movement control
-class CatcherMovement:
-    @staticmethod
-    def left():
-        if not catcher.xcor() <= -387: # border check
-            catcher.setpos(catcher.xcor() - 10, catcher.ycor())
+        # catcher movement binding
+        turtle.onkeypress(self.movLeft, "a")
+        turtle.onkeypress(self.movRight, "d")
+
+    def movLeft(self):
+        if not self.xcor() <= -387: # border check
+            self.setpos(self.xcor() - 10, self.ycor())
     
-    @staticmethod
-    def right():
-        if not catcher.xcor() >= 387: # border check
-            catcher.setpos(catcher.xcor() + 10, catcher.ycor())
+    def movRight(self):
+        if not self.xcor() >= 387: # border check
+            self.setpos(self.xcor() + 10, self.ycor())
 
-# struct for falling object control
-class FallingObjectControl:
-    @staticmethod
-    def reset(i):
-        globals()[f"falling{i}"].setpos(randint(-462, 462), randint(535, 635)) # reset falling object position to ABOVE the top, using ycor to control the delay before falling starts
-        fallingSpeed[i] = randint(1, 10)
+class FallingObject(turtle.Turtle):
+    fallingSpeed = None
 
-# class for statistics control
-class StatControl:
-    # private attributes to store statistics
-    missedCount = None
-    caughtCount = None
+    def __init__(self):
+        super().__init__()
+        self.pu()
+        self.speed("fastest")
+        turtle.register_shape("./falling.gif")
+        self.shape("./falling.gif")
+        self.setpos(randint(-462, 462), randint(0, 465))
+        self.fallingSpeed = randint(1, 10)
 
-    # private attributes to control missed stat and caught stat separately
-    missedStat = turtle.Turtle()
-    caughtStat = turtle.Turtle()
+    def falling(self):
+        self.setpos(self.xcor(), self.ycor() - self.fallingSpeed)
 
-    def __init__(self, initMissedCount, initCaughtCount):
-        # initialize the missed count && caught count
-        self.missedCount = initMissedCount
-        self.caughtCount = initCaughtCount
+    def reset(self):
+        self.setpos(randint(-462, 462), randint(535, 635))
+        self.fallingSpeed = randint(1, 10)
 
-        # initialize the objects: missedStat && caughtStat
-        for obj in [self.missedStat, self.caughtStat]:
-            obj.hideturtle()
-            obj.pu()
-            obj.speed("fastest")
+class Statistics(turtle.Turtle):
+    data = None
+    name = None
 
-        # move the two objects to designed position
-        #* this section has to be put before the initial stat printing since removal is done using turtle.undo()
-        self.missedStat.setpos(-430, 400)
-        self.caughtStat.setpos(-430, 365)
+    def __init__(self, dataName, initDataValue, pos):
+        super().__init__()
+        self.hideturtle()
+        self.pu()
+        self.speed("fastest")
 
-        # print the initial statistics statement for turtle.undo() uses later on
-        self.missedStat.write("Missed: " + str(self.missedCount), move=False, align='left', font=('Arial', 17, 'normal'))
-        self.caughtStat.write("Caught: " + str(self.caughtCount), move=False, align='left', font=('Arial', 17, 'normal'))
+        # move object to designed position
+        self.setpos(pos)
 
-    def updateMissedCount(self, diff):
-        self.missedCount += diff
-        self.missedStat.undo() # use undo to erase written statements as it is faster
-        self.missedStat.write("Missed: " + str(self.missedCount), move=False, align='left', font=('Arial', 17, 'normal'))
+        # set attribute values
+        self.data = initDataValue
+        self.name = dataName
 
-    def updateCaughtCount(self, diff):
-        self.caughtCount += diff
-        self.caughtStat.undo() # use undo to erase written statements as it is faster
-        self.caughtStat.write("Caught: " + str(self.caughtCount), move=False, align='left', font=('Arial', 17, 'normal'))
+        # print initial statistics statement for turtle.undo() uses later on
+        self.write(self.name + ": " + str(self.data), move=False, align="left", font=("Arial", 17, "normal"))
 
-# a struct for controlling the general program status
-class ProgramStatusControl:
-    @staticmethod
-    def initialize(fallingObjectsCount):
-        # turtle
-        turtle.setup(1000, 1000) # canvas setup
-        turtle.hideturtle()
-        turtle.pu()
-        turtle.bgpic("./background.gif") # background img
-        turtle.register_shape("./catcher.gif") # catcher img
-        turtle.register_shape("./falling.gif") # falling object img
+    def dataUpdate(self, diff):
+        self.data += diff
+        self.undo() # use undo to erase written statements as it is faster
+        self.write(self.name + ": " + str(self.data), move=False, align="left", font=("Arial", 17, "normal"))
 
-        # object instantiation and initialization
-        # catcher
-        globals()["catcher"] = turtle.Turtle()
-        catcher.pu()
-        catcher.speed("fastest")
-        catcher.shape("./catcher.gif")
-        catcher.setpos(randint(-387, 387), -387)
+class MasterControl(turtle.Turtle):
+    def __init__(self, screenDimensionsX, screenDimensionsY):
+        super().__init__()
+        turtle.setup(screenDimensionsX, screenDimensionsY) # canvas setup
+        self.hideturtle()
+        self.pu()
+        self.speed("fastest")
+        turtle.bgpic("./background.gif") # background image
 
-        # catcher movement binding ! do NOT put parentheses after the function, otherwise it will stop working
-        turtle.onkeypress(CatcherMovement.left, "a")
-        turtle.onkeypress(CatcherMovement.right, "d")
-
-        # falling object || snowflakes
-        globals()["fallingSpeed"] = []
-        globals()["fallingObjNum"] = fallingObjectsCount
-        for i in range(fallingObjNum):
-            globals()[f"falling{i}"] = turtle.Turtle()
-            globals()[f"falling{i}"].pu()
-            globals()[f"falling{i}"].speed("fastest")
-            globals()[f"falling{i}"].shape("./falling.gif")
-            globals()[f"falling{i}"].setpos(randint(-462, 462), randint(0, 465))
-            fallingSpeed.append(randint(1, 10))
-        
-        # statistics
-        globals()["stat"] = StatControl(0, 0)
-
-    @staticmethod
-    def exit():
-        del globals()["exitPrompt"] # reset exit prompt availability
-        _exit(0) # exit program with 0
-
-    @staticmethod
-    def restart():
+    def restart(self):
         # reset screen
         turtle.clearscreen()
         exitPrompt.destroy()
 
         # reset exit prompt availability
-        del globals()["exitPrompt"] 
+        del globals()["exitPrompt"]
 
         # recall main function
         main()
 
-    @staticmethod
-    def exitPrompt():
+    def exit(self):
+        # reset exit prompt availability
+        del globals()["exitPrompt"]
+
+        _exit(0) # exit program with 0
+
+    def exitPrompt(self, fallingObjects):
         # hold screen
-        for i in range(5):
-            fallingSpeed[i] = 0
+        for obj in fallingObjects:
+            obj.fallingSpeed = 0
 
         # display exit message
-        turtle.setpos(0, 20)
-        turtle.write("Game Over", move=False, align='center', font=('Arial', 30, 'normal'))
-        turtle.setpos(turtle.xcor(), turtle.ycor() - 40)
-        turtle.write("You have exceeded the maximum missed count (5).", move=False, align='center', font=('Arial', 30, 'normal'))
-        
+        self.setpos(0, 20)
+        self.write("Game Over", move=False, align="center", font=("Arial", 30, "normal"))
+        self.setpos(self.xcor(), self.ycor() - 40)
+        self.write("You have exceeded the maximum missed count (5).", move=False, align="center", font=("Arial", 30, "normal"))
+
         # exit prompt window
         globals()["exitPrompt"] = tkinter.Tk()
         exitPrompt.title("Exit Prompt - Game Failed")
         tkinter.Label(exitPrompt, text="Exit Prompt - Game Failed").pack()
-        tkinter.Button(exitPrompt, text="Retry", command=ProgramStatusControl.restart).pack()
-        tkinter.Button(exitPrompt, text="Exit", command=ProgramStatusControl.exit).pack()
+        tkinter.Button(exitPrompt, text="Retry", command=self.restart).pack()
+        tkinter.Button(exitPrompt, text="Exit", command=self.exit).pack()
 
 def main():
     # initialization
-    # print("please wait until the game is initialized")
-    ProgramStatusControl.initialize(5)
-    # input("game initialized. press enter to continue")
+    # master
+    master = MasterControl(1000, 1000)
+
+    # falling objects
+    fallingObjectList = []
+    for i in range(5):
+        locals()[f"falling{i}"] = FallingObject()
+        fallingObjectList.append(locals()[f"falling{i}"])
+
+    # catcher
+    catcher = Catcher()
+
+    # statistics
+    missedStat = Statistics("Missed", 0, (-430, 400))
+    caughtStat = Statistics("Caught", 0, (-430, 365))
 
     # listen for screen events
-    turtle.listen() 
+    turtle.listen()
 
     # moving animations
     while True:
-        # this for loop is used to make the control switch between all the objects
-        for i in range(fallingObjNum):
-            # falling objects
-            globals()[f"falling{i}"].setpos(globals()[f"falling{i}"].xcor(), globals()[f"falling{i}"].ycor() - fallingSpeed[i]) # regular falling
+        for obj in fallingObjectList:
+            obj.falling() # regular falling
 
-            if not "exitPrompt" in globals():
-                # missed decision
-                if globals()[f"falling{i}"].ycor() <= -465:
-                    FallingObjectControl.reset(i)
-                    stat.updateMissedCount(1)
-                    
-                    # check if the user failed the game
-                    if stat.missedCount > 5:
-                        ProgramStatusControl.exitPrompt()
+            # missed decision
+            if obj.ycor() <= -465:
+                obj.reset()
+                missedStat.dataUpdate(1)
 
-                # caught decision
-                elif globals()[f"falling{i}"].ycor() > catcher.ycor() + 92 and globals()[f"falling{i}"].ycor() < catcher.ycor() + 112 and abs(globals()[f"falling{i}"].xcor() - catcher.xcor()) < 112:
-                    FallingObjectControl.reset(i)
-                    stat.updateCaughtCount(1)
-            
-if __name__ == '__main__':
+                # check if the user failed the game
+                if missedStat.data > 5:
+                    if not "exitPrompt" in globals():
+                        master.exitPrompt(fallingObjectList)
+
+            # caught decision
+            elif obj.ycor() > catcher.ycor() + 92 and obj.ycor() < catcher.ycor() + 112 and abs(obj.xcor() - catcher.xcor()) < 112:
+                obj.reset()
+                caughtStat.dataUpdate(1)
+
+if __name__ == "__main__":
     main()
