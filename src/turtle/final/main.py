@@ -75,63 +75,56 @@ class Statistics(turtle.Turtle):
         self.undo() # use undo to erase written statements as it is faster
         self.write(self.name + ": " + str(self.data), move=False, align="left", font=("Arial", 17, "normal"))
 
-class MasterControl(turtle.Turtle):
-    def __init__(self, screenDimensionsX, screenDimensionsY):
-        super().__init__()
-        turtle.setup(screenDimensionsX, screenDimensionsY) # canvas setup
-        self.hideturtle()
-        self.pu()
-        self.speed("fastest")
-        turtle.bgpic("./background.gif") # background image
+class ExitPrompt:
+    window = None
 
-    def restart(self):
-        # reset screen
-        turtle.clearscreen()
-        exitPrompt.destroy()
-
-        # reset exit prompt availability
-        del globals()["exitPrompt"]
-
-        # recall main function
-        main()
-
-    def exit(self):
-        # reset exit prompt availability
-        del globals()["exitPrompt"]
-
-        _exit(0) # exit program with 0
-
-    def exitPrompt(self, fallingObjects):
+    def __init__(self, fallingObjects):
         # hold screen
         for obj in fallingObjects:
             obj.fallingSpeed = 0
 
         # display exit message
-        self.setpos(0, 20)
-        self.write("Game Over", move=False, align="center", font=("Arial", 30, "normal"))
-        self.setpos(self.xcor(), self.ycor() - 40)
-        self.write("You have exceeded the maximum missed count (5).", move=False, align="center", font=("Arial", 30, "normal"))
+        text = turtle.Turtle()
+        text.hideturtle()
+        text.pu()
+        text.speed("fastest")
+        text.setpos(0, 20)
+        text.write("Game Over", move=False, align="center", font=("Arial", 30, "normal"))
+        text.setpos(text.xcor(), text.ycor() - 40)
+        text.write("You have exceeded the maximum missed count (5).", move=False, align="center", font=("Arial", 30, "normal"))
 
         # exit prompt window
-        globals()["exitPrompt"] = tkinter.Tk()
-        exitPrompt.title("Exit Prompt - Game Failed")
-        tkinter.Label(exitPrompt, text="Exit Prompt - Game Failed").pack()
-        tkinter.Button(exitPrompt, text="Retry", command=self.restart).pack()
-        tkinter.Button(exitPrompt, text="Exit", command=self.exit).pack()
+        self.window = tkinter.Tk()
+        self.window.title("Exit Prompt - Game Failed")
+        tkinter.Label(self.window, text="Exit Prompt - Game Failed").pack()
+        tkinter.Button(self.window, text="Retry", command=self.restart).pack()
+        tkinter.Button(self.window, text="Exit", command=self.exit).pack()
+    
+    def restart(self):
+        # reset screen
+        turtle.clearscreen()
+        self.window.destroy()
+
+        # recall main function
+        main()
+
+    def exit(self):
+        _exit(0) # exit program with 0
 
 def main():
-    # initialization
-    # master
-    master = MasterControl(1000, 1000)
+    # screen initialization
+    turtle.setup(1000, 1000)
+    turtle.hideturtle()
+    turtle.bgpic("./background.gif")
+
+    # catcher
+    catcher = Catcher()
 
     # falling objects
     fallingObjectList = []
     for i in range(5):
         locals()[f"falling{i}"] = FallingObject()
         fallingObjectList.append(locals()[f"falling{i}"])
-
-    # catcher
-    catcher = Catcher()
 
     # statistics
     missedStat = Statistics("Missed", 0, (-430, 400))
@@ -152,8 +145,7 @@ def main():
 
                 # check if the user failed the game
                 if missedStat.data > 5:
-                    if not "exitPrompt" in globals():
-                        master.exitPrompt(fallingObjectList)
+                    exitPrompt = ExitPrompt(fallingObjectList)
 
             # caught decision
             elif obj.ycor() > catcher.ycor() + 92 and obj.ycor() < catcher.ycor() + 112 and abs(obj.xcor() - catcher.xcor()) < 112:
