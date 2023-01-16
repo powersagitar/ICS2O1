@@ -9,6 +9,7 @@ import turtle
 import tkinter
 from random import randint
 from os import _exit
+import winsound
 
 class Catcher(turtle.Turtle):
     def __init__(self):
@@ -148,6 +149,7 @@ def main():
             if obj.ycor() <= -465:
                 obj.reset()
                 missedStat.dataUpdate(1)
+                winsound.PlaySound("missed.wav", winsound.SND_ALIAS)
 
                 # check if the user failed the game
                 if missedStat.data > 5:
@@ -157,6 +159,7 @@ def main():
             elif obj.ycor() > catcher.ycor() + 92 and obj.ycor() < catcher.ycor() + 112 and abs(obj.xcor() - catcher.xcor()) < 112:
                 obj.reset()
                 caughtStat.dataUpdate(1)
+                winsound.PlaySound("caught.wav", winsound.SND_ALIAS)
 
 if __name__ == "__main__":
     main()
