@@ -101,15 +101,21 @@ class ExitPrompt:
         tkinter.Button(self.window, text="Exit", command=self.exit).pack()
     
     def restart(self):
-        # reset screen
-        turtle.clearscreen()
-        self.window.destroy()
-
-        # recall main function
-        main()
+        self.window.destroy() # destroy tkinter window (exit prompt)
+        MasterControl.restart() # call program restart function
 
     def exit(self):
-        _exit(0) # exit program with 0
+        MasterControl.exit(0) # exit program with 0
+
+class MasterControl:
+    @staticmethod
+    def restart():
+        turtle.clearscreen() # clear screen
+        main() # recall main function
+
+    @staticmethod
+    def exit(exitCode):
+        _exit(exitCode)
 
 def main():
     # screen initialization
