@@ -9,7 +9,7 @@ import turtle
 import tkinter
 from random import randint
 from os import _exit
-import winsound
+from playsound import playsound
 
 class Catcher(turtle.Turtle):
     def __init__(self):
@@ -103,20 +103,17 @@ class ExitPrompt:
     
     def restart(self):
         self.window.destroy() # destroy tkinter window (exit prompt)
-        MasterControl.restart() # call program restart function
+        restart() # call program restart function
 
     def exit(self):
-        MasterControl.exit(0) # exit program with 0
+        exit(0) # exit program with 0
 
-class MasterControl:
-    @staticmethod
-    def restart():
-        turtle.clearscreen() # clear screen
-        main() # recall main function
+def restart():
+    turtle.clearscreen() # clear screen
+    main() # recall main function
 
-    @staticmethod
-    def exit(exitCode):
-        _exit(exitCode)
+def exit(exitCode):
+    _exit(exitCode)
 
 def main():
     # screen initialization
@@ -149,7 +146,7 @@ def main():
             if obj.ycor() <= -465:
                 obj.reset()
                 missedStat.dataUpdate(1)
-                winsound.PlaySound("missed.wav", winsound.SND_ALIAS)
+                playsound("missed.wav")
 
                 # check if the user failed the game
                 if missedStat.data > 5:
@@ -159,7 +156,7 @@ def main():
             elif obj.ycor() > catcher.ycor() + 92 and obj.ycor() < catcher.ycor() + 112 and abs(obj.xcor() - catcher.xcor()) < 112:
                 obj.reset()
                 caughtStat.dataUpdate(1)
-                winsound.PlaySound("caught.wav", winsound.SND_ALIAS)
+                playsound("caught.wav")
 
 if __name__ == "__main__":
     main()
