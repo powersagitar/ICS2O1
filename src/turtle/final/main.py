@@ -18,7 +18,7 @@ class Catcher(turtle.Turtle):
         self.speed("fastest")
         turtle.register_shape("./catcher.gif")
         self.shape("./catcher.gif")
-        self.setpos(randint(-387, 387), -387)
+        self.setpos(randint(-387, 387), -387) # give catcher a random starting position
 
         # catcher movement binding
         turtle.onkeypress(self.movLeft, "a")
@@ -41,17 +41,18 @@ class FallingObject(turtle.Turtle):
         self.speed("fastest")
         turtle.register_shape("./falling.gif")
         self.shape("./falling.gif")
-        self.setpos(randint(-462, 462), randint(0, 465))
-        self.fallingSpeed = randint(1, 10)
+        self.setpos(randint(-462, 462), randint(0, 465)) # give falling object a random falling speed
+        self.fallingSpeed = randint(1, 10) # give falling object a random falling speed
 
     def falling(self):
-        self.setpos(self.xcor(), self.ycor() - self.fallingSpeed)
+        self.setpos(self.xcor(), self.ycor() - self.fallingSpeed) # regular falling process
 
     def reset(self):
-        self.setpos(randint(-462, 462), randint(535, 635))
-        self.fallingSpeed = randint(1, 10)
+        self.setpos(randint(-462, 462), randint(535, 635)) # reset the object's position and give it a random delay before falling starts
+        self.fallingSpeed = randint(1, 10) # reset the falling speed
 
 class Statistics(turtle.Turtle):
+    # attributes to store the stats
     data = None
     name = None
 
@@ -98,6 +99,8 @@ class ExitPrompt:
         self.window = tkinter.Tk()
         self.window.title("Exit Prompt - Game Failed")
         tkinter.Label(self.window, text="Exit Prompt - Game Failed").pack()
+        
+        # build buttons
         tkinter.Button(self.window, text="Retry", command=self.restart).pack()
         tkinter.Button(self.window, text="Exit", command=self.exit).pack()
     
@@ -113,7 +116,7 @@ def restart():
     main() # recall main function
 
 def exit(exitCode):
-    _exit(exitCode)
+    _exit(exitCode) # exit program
 
 def main():
     # screen initialization
